@@ -1,6 +1,6 @@
 # LedgerR Project Document
 
-# Planned Features
+## Planned Features
 - add expenses on a per-month basis
 - add income on a per-month basis
 - generate networth on a per-month basis => almost like a snap-shot on the first of every month
@@ -9,8 +9,14 @@
 - build Line chart for networth
 - build bar chart for monthly spending aggregated on spending category
 - add PDF parsing (using a locally hosted LLM) for spending
+- theme configuration file
 
-# Tasks
+## Tasks
+
+#### Build the ui in react => use v0
+- [x] recreate Repo using React + vite
+- [ ] Mock UI https://v0.dev/chat/main-page-design-zQ0LCimdZio
+- [ ] add state management => [zustand](https://github.com/pmndrs/zustand)
 
 #### Build the Rust back end
 - [ ] Pick out the schema for the DB
@@ -32,7 +38,4 @@
 			- Rust Struct => React
 			- Filter data and return to React
 
-#### Build the ui in react => use v0
-- [ ] Mock UI https://v0.dev/chat/main-page-design-zQ0LCimdZio
-- [ ] recreate Repo using React + vite
 
