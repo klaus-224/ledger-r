@@ -1,5 +1,9 @@
 const SidebarNav = () => {
-  return <div>sidebar nav</div>;
+  return (
+    <aside data-slot="side-bar-nav">
+      sidebar
+    </aside>
+  );
 };
 
 export default SidebarNav;

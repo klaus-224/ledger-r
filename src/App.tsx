@@ -1,12 +1,11 @@
-import SidebarNav from "@components/sidebar-nav";
+import WindowWrapper from "@components/window-wrapper";
 
-function App() {
+const App = () => {
   return (
-    <main>
-      <SidebarNav />
-			<div className="">hello, world</div>
-    </main>
+    <WindowWrapper>
+      content
+    </WindowWrapper>
   );
-}
+};
 
 export default App;
