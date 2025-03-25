@@ -20,9 +20,9 @@
 	--primary: #a89f91;
 	--primary-foreground: #ffffff;
 	--secondary: #a89f91;
-	--secondary-foreground: #ffffff;
 	--sidebar: #16181d;
-	--sidebar-foreground: #e4dccf;
+	--sidebar-foreground: #c9b9a9;
+	--sidebar-secondary: #232e43;
 	--sidebar-border: #3a3a3f;
 	--muted: #3a3a3a;
 	--muted-foreground: #a89f91;
@@ -38,6 +38,7 @@
 	--color-sidebar: var(--sidebar);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-secondary: var(--sidebar-secondary);
 }
 
 /* SYSTEM-PREFERENCE: Dark */
@@ -52,11 +53,28 @@
 
 /* CUSTOM GLOBAL COMPONENTS */
 @layer components {
-	.side-bar {
+	.sidebar-section {
 		@apply min-h-screen border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out;
 	}
 
-	.main-content {
-		@apply min-h-screen bg-background transition-all duration-300 ease-in-out;
+	.main-content-section {
+		@apply min-h-screen px-8 bg-background transition-all duration-300 ease-in-out;
+	}
+
+	.sidebar-header {
+		@apply text-2xl font-bold text-center mt-5;
+	}
+
+	.sidebar-container {
+		@apply flex-grow flex flex-col justify-center;
+	}
+
+	.sidebar-item {
+		@apply text-xl font-bold pl-4 py-2 hover:bg-sidebar-secondary hover:cursor-pointer;
+
+	}
+
+	.sidebar-item.active {
+		@apply bg-sidebar-secondary;
 	}
 }
