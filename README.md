@@ -15,7 +15,9 @@
 
 #### Build the ui in react => use v0
 - [x] recreate Repo using React + vite
-- [ ] Mock UI https://v0.dev/chat/main-page-design-zQ0LCimdZio
+- [x] Mock UI https://v0.dev/chat/main-page-design-zQ0LCimdZio
+- [ ] Build expense detail page
+- [ ] Build mock pages for Income and Networth
 - [ ] add state management => [zustand](https://github.com/pmndrs/zustand)
 
 #### Build the Rust back end
@@ -34,7 +36,7 @@
 		- Transforming data:
 			- React => Rust Struct (Models)
 			- Rust Struct => Sqlite Type
-			- Sqlite Type => Rust Struct
+			- DuckDB Type => Rust Struct
 			- Rust Struct => React
 			- Filter data and return to React
 
