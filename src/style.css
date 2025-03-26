@@ -19,7 +19,7 @@
 	--foreground: #e4dccf;
 	--primary: #a89f91;
 	--primary-foreground: #ffffff;
-	--secondary: #1E2938;
+	--secondary: #1e2938;
 	--sidebar: #16181d;
 	--sidebar-foreground: #c9b9a9;
 	--sidebar-secondary: #232e43;
@@ -55,28 +55,18 @@
 
 /* CUSTOM GLOBAL COMPONENTS */
 @layer components {
-	.sidebar-section {
-		@apply min-h-screen border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out;
-	}
 
+	/** LAYOUT **/
 	.main-content-section {
 		@apply min-h-screen px-7 py-5 bg-background transition-all duration-300 ease-in-out;
 	}
 
-	.sidebar-header {
-		@apply text-2xl font-extrabold text-center mt-5;
+	.sidebar-section {
+		@apply min-h-screen border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out;
 	}
 
 	.sidebar-container {
 		@apply flex-grow flex flex-col justify-center;
-	}
-
-	.sidebar-item {
-		@apply text-xl font-bold pl-4 py-2 hover:bg-sidebar-secondary hover:cursor-pointer;
-	}
-
-	.sidebar-item.active {
-		@apply bg-sidebar-secondary;
 	}
 
 	.pane {
@@ -87,11 +77,35 @@
 		}
 	}
 
-	.button {
-		@apply bg-secondary hover:bg-gray-700 text-white font-medium py-2 px-4 rounded border border-gray-700 shadow-sm transition duration-150 cursor-pointer;
+	/** END LAYOUTS **/
+
+	/** SIDEBAR **/
+	.sidebar-header {
+		@apply text-2xl font-extrabold text-center mt-5;
 	}
 
-	.card {
+	.sidebar-item {
+		@apply text-xl font-bold pl-4 py-2 hover:bg-sidebar-secondary hover:cursor-pointer;
+	}
+
+	.sidebar-item.active {
+		@apply bg-sidebar-secondary;
+	}
+
+	/** SIDEBAR **/
+
+	/** COMPONENTS **/
+	.expense-card {
 		@apply w-[23%] bg-secondary rounded-lg border border-gray-700 shadow-md overflow-hidden hover:shadow-lg transition duration-150 cursor-pointer;
 	}
+
+	.new-expense-button {
+		@apply bg-secondary hover:bg-gray-700 text-white font-medium py-1 px-4 rounded border border-gray-700 shadow-sm transition duration-150 cursor-pointer;
+	}
+
+	.icon-button {
+		@apply rounded-full bg-slate-800 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none cursor-pointer;
+	}
+
+	/** END COMPONENTS **/
 }
