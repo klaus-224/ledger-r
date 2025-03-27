@@ -9,7 +9,7 @@ const ExpensePane = () => {
 		<div className="pane">
 			<div className="flex flex-row justify-between items-center mb-10">
 				<h2>Expenses</h2>
-				<button className="new-expense-button" onClick={() => navigate("/expenses/new") }>+ New Expense</button>
+				<button className="button" onClick={() => navigate("/expenses/new") }>+ New Expense</button>
 			</div>
 			<div className="flex flex-row flex-wrap justify-between gap-y-5">
 				{array.map(() => (

@@ -99,12 +99,16 @@
 		@apply w-[23%] bg-secondary rounded-lg border border-gray-700 shadow-md overflow-hidden hover:shadow-lg transition duration-150 cursor-pointer;
 	}
 
-	.new-expense-button {
-		@apply bg-secondary hover:bg-gray-700 text-white font-medium py-1 px-4 rounded border border-gray-700 shadow-sm transition duration-150 cursor-pointer;
+	.button {
+		@apply font-medium py-1 px-4 rounded shadow-sm transition duration-150 cursor-pointer bg-sidebar hover:bg-gray-700 border border-sidebar-border text-white;
 	}
 
 	.icon-button {
-		@apply rounded-full bg-slate-800 p-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none cursor-pointer;
+		@apply rounded-full bg-sidebar p-2.5 border border-sidebar-border text-center text-sm transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none hover:bg-slate-700 active:shadow-none disabled:pointer-events-none cursor-pointer;
+	}
+
+	.date-picker {
+		@apply text-white rounded-md px-4 py-1 border border-sidebar-border focus:outline-none focus:ring-1 focus:ring-gray-500 w-1/4;
 	}
 
 	/** END COMPONENTS **/
