@@ -1,7 +1,11 @@
 # LedgerR Project Document
 
 ## Planned Features
-- add expenses on a per-month basis
+### MVP
+- add and delete expenses on a per-month basis
+
+### Extended:
+- editable expense tables
 - add income on a per-month basis
 - generate networth on a per-month basis => almost like a snap-shot on the first of every month
 	- Aggregate of Monthly income - expenses + Chequing + Savings + TFSA + FHSA
@@ -16,7 +20,8 @@
 #### Build the ui in react => use v0
 - [x] recreate Repo using React + vite
 - [x] Mock UI https://v0.dev/chat/main-page-design-zQ0LCimdZio
-- [ ] Build expense detail page
+- [x] Build expense detail page
+- [ ] Build ExpenseTable component => this could be extended for the income and networth tables or just take the ideas and make these tables
 - [ ] Build mock pages for Income and Networth
 - [ ] add state management => [zustand](https://github.com/pmndrs/zustand)
 
