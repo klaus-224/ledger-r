@@ -1,17 +1,8 @@
-use duckdb::Connection;
+mod duck_store;
 
-// The state of our application, so far it only contains the connection
-// which I will use once I start passing into the execution functions
-pub struct DatabaseState {
-    connecton: Connection,
-}
+// re-exports
+pub use duck_store::Database;
+pub use duck_store::Entity;
 
-impl DatabaseState {
-    pub async fn new(db_path: String) -> Result<Self, String> {
-        let connection = Connection::open(db_path).expect("Failed to open db connection");
-
-        Ok(DatabaseState {
-            connecton: connection,
-        })
-    }
-}
+// --- Trait Markers
+// TODO probably will need a Mappable type

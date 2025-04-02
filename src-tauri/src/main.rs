@@ -6,11 +6,15 @@ mod commands;
 mod database;
 mod models;
 
+use std::sync::Arc;
+
 // -- Imports
 use commands::greet;
+use database::Database;
 
 fn main() {
-    let db_state = database::DatabaseState::new("./data/data.duckdb".to_string());
+    let db_state = Database::new("/data/data.duckdb".to_string());
+    let db_state = Arc::new(db_state);
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())

@@ -1,6 +1,6 @@
-use tauri::{command, State};
+use tauri::command;
 
-use crate::database::DatabaseState;
+use crate::models::expenses::Expense;
 
 #[command]
 pub fn greet(name: &str) -> String {
@@ -10,4 +10,8 @@ pub fn greet(name: &str) -> String {
 // TODO how do I use the connection string in my commands and moreover, how do I use them in my
 // model functions?
 #[command]
-pub fn create_expense(state: State<DatabaseState>) {}
+pub fn create_expense(expense: Expense) {}
+
+//
+#[command]
+pub fn get_expenses(expense: Expense) {}
