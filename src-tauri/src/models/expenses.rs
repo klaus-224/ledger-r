@@ -19,7 +19,11 @@ impl Entity for Expense {
         })
     }
 
-    fn to_params(&self) -> Vec<&(dyn duckdb::ToSql + Sync)> {
-        todo!()
+    fn to_params(&self) -> Vec<&(dyn duckdb::ToSql)> {
+        let date = &self.date;
+        let category = &self.category;
+        let amount = &self.amount;
+
+        vec![date, category, amount]
     }
 }

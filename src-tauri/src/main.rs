@@ -13,7 +13,7 @@ use commands::greet;
 use database::Database;
 
 fn main() {
-    let db_state = Database::new("/data/data.duckdb".to_string());
+    let db_state = Database::new("/data/data.duckdb");
     let db_state = Arc::new(db_state);
 
     tauri::Builder::default()
