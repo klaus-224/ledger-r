@@ -1,29 +1,48 @@
-use crate::database::Entity;
+use duckdb::{params, ToSql};
+
+use crate::database::{Createable, Entity, Filterable};
 
 pub struct Expense {
+    pub id: i64,
     pub date: String,
     pub category: String,
     pub amount: i32,
 }
 
 impl Entity for Expense {
-    fn table_name() -> &'static str {
-        "expenses"
-    }
-
     fn from_row(row: &duckdb::Row) -> Result<Self, duckdb::Error> {
-        Ok(Expense {
-            date: row.get(0)?,
-            category: row.get(1)?,
-            amount: row.get(2)?,
-        })
+        let expense = Expense {
+            id: row.get(0)?,
+            date: row.get(1)?,
+            category: row.get(2)?,
+            amount: row.get(3)?,
+        };
+
+        Ok(expense)
     }
+}
 
-    fn to_params(&self) -> Vec<&(dyn duckdb::ToSql)> {
-        let date = &self.date;
-        let category = &self.category;
-        let amount = &self.amount;
+pub struct ExpenseDateFilter {
+    pub start_date: String,
+    pub end_date: String,
+}
 
-        vec![date, category, amount]
+impl Filterable for ExpenseDateFilter {
+    fn to_params(&self) -> (&'static str, Vec<&dyn ToSql>) {
+        let sql: &str = "SELECT * FROM expenses WHERE date >= ? and date <= ?";
+
+        (sql, vec![&self.start_date, &self.end_date])
+    }
+}
+
+pub struct ExpenseForCreate {
+    pub date: String,
+    pub category: String,
+    pub amount: i32,
+}
+
+impl Createable for ExpenseForCreate {
+    fn to_params(&self) -> Vec<&dyn ToSql> {
+        vec![&self.date, &self.category, &self.amount]
     }
 }
