@@ -13,6 +13,7 @@ pub trait Entity: Sized {
 
 pub trait Createable {
     fn to_params(&self) -> Vec<&dyn ToSql>;
+    fn column_names(&self) -> Vec<String>;
 }
 
 pub trait Filterable {

@@ -45,4 +45,12 @@ impl Createable for ExpenseForCreate {
     fn to_params(&self) -> Vec<&dyn ToSql> {
         vec![&self.date, &self.category, &self.amount]
     }
+
+    fn column_names(&self) -> Vec<String> {
+        vec![
+            "date".to_string(),
+            "category".to_string(),
+            "amount".to_string(),
+        ]
+    }
 }
