@@ -43,14 +43,13 @@ impl Database {
         Ok(entity)
     }
 
-    // return a vec of Entity
     pub fn execute_select<F, E>(self, filter: F) -> Result<Vec<E>, Error>
     where
         F: Filterable,
         E: Entity,
     {
         let (sql, expr) = filter.to_params();
-        let conn = self.connection.lock().unwrap(); // TODO this need to be better
+        let conn = self.connection.lock().unwrap(); // TODO this needs to be better
 
         let mut stmt = conn.prepare(sql)?;
 
@@ -58,24 +57,43 @@ impl Database {
 
         entity.collect()
     }
+
+    pub fn execute_delete(self, tbl: &str, id: i64) -> Result<i64, Error> {
+        let conn = self.connection.lock().unwrap(); // TODO this needs to be better
+
+        let sql = format!("DELETE FROM {} WHERE id = ?", tbl);
+
+        conn.execute(&sql, [id]);
+
+        Ok(id)
+    }
 }
 
-// region:      -- TESTS
+// start region:      -- TESTS
 #[cfg(test)]
 mod tests {
+    use std::{fs, path::Path};
+
     use super::*;
     use crate::models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate};
-    use std::{env, iter::Filter, sync::Once};
-    use uuid::Uuid;
 
-    static INIT: Once = Once::new();
+    static DB_PATH: Mutex<Option<String>> = Mutex::new(None);
 
-    async fn setup_test_db() -> Database {
+    async fn setup_test_db(test_name: &str) -> Database {
         let test_dir = ".tmp".to_string();
-        std::fs::create_dir_all(&test_dir).expect("Failed to create test-db directory");
-        let db_path = format!("{}/test_db.db", test_dir);
 
-        let db = Database::new(&db_path).expect("Failed to create test database");
+        std::fs::create_dir_all(&test_dir).expect("Failed to create test-db directory");
+
+        let db_path = format!("{}/test_db_{}.db", test_dir, test_name);
+
+        *DB_PATH.lock().unwrap() = Some(db_path.clone());
+
+        Database::new(&db_path).expect("Failed to create test database")
+    }
+
+    #[tokio::test]
+    async fn test_select_all_expenses() {
+        let db = setup_test_db("select-expenses").await;
 
         {
             let conn = db
@@ -87,13 +105,6 @@ mod tests {
             conn.execute_batch(seed);
         }
 
-        db
-    }
-
-    #[tokio::test]
-    async fn test_select_all_expenses() {
-        let db = setup_test_db().await;
-
         let filter = ExpenseDateFilter {
             start_date: "2025-04-01".to_string(),
             end_date: "2025-05-01".to_string(),
@@ -103,15 +114,15 @@ mod tests {
             .execute_select(filter)
             .expect("Failed to select expenses");
 
-        assert_eq!(expenses.len(), 21);
-        assert_eq!(expenses[0].date, "2025-04-01");
-        assert_eq!(expenses[0].category, "Food");
-        assert_eq!(expenses[0].amount, 366);
+        assert_eq!(expenses.len(), 7);
+        assert_eq!(expenses[0].date, "2025-04-02");
+        assert_eq!(expenses[0].category, "Travel");
+        assert_eq!(expenses[0].amount, 625);
     }
 
     #[tokio::test]
     async fn test_create_expense() {
-        let db = setup_test_db().await;
+        let db = setup_test_db("create-expenses").await;
 
         let expense_for_create = ExpenseForCreate {
             date: "2025-04-07".to_string(),
@@ -125,4 +136,24 @@ mod tests {
         assert_eq!(expense.category, "Games");
         assert_eq!(expense.amount, 35);
     }
+
+    #[tokio::test]
+    async fn test_delete_expense() {
+        let db = setup_test_db("delete-expenses").await;
+
+        {
+            let conn = db
+                .connection
+                .lock()
+                .expect("Failed to get database connection");
+            let seed = include_str!("test_seed.sql");
+
+            conn.execute_batch(seed);
+        }
+
+        let id = db.execute_delete("expenses", 1).unwrap();
+
+        assert_eq!(id, 1);
+    }
 }
+// -- end region:       TESTS

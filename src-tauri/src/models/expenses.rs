@@ -2,6 +2,7 @@ use duckdb::{params, ToSql};
 
 use crate::database::{Createable, Entity, Filterable};
 
+// startregion:  --- Expense
 pub struct Expense {
     pub id: i64,
     pub date: String,
@@ -21,7 +22,9 @@ impl Entity for Expense {
         Ok(expense)
     }
 }
+// endregion:  --- Expense
 
+// startregion:  --- ExpenseDateFilter
 pub struct ExpenseDateFilter {
     pub start_date: String,
     pub end_date: String,
@@ -34,7 +37,9 @@ impl Filterable for ExpenseDateFilter {
         (sql, vec![&self.start_date, &self.end_date])
     }
 }
+// endregion:  --- ExpenseDateFilter
 
+// startregion:   --- ExpenseForCreate
 pub struct ExpenseForCreate {
     pub date: String,
     pub category: String,
@@ -54,3 +59,4 @@ impl Createable for ExpenseForCreate {
         ]
     }
 }
+// endregion:   --- ExpenseForCreate
