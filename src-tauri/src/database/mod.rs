@@ -19,3 +19,9 @@ pub trait Createable {
 pub trait Filterable {
     fn to_params(&self) -> (&'static str, Vec<&dyn ToSql>);
 }
+
+pub trait Patchable {
+    fn get_id(&self) -> i64;
+    fn column_names(&self) -> Vec<String>;
+    fn to_params(&self) -> Vec<&dyn ToSql>;
+}

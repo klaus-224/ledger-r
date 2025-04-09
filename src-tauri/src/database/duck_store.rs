@@ -1,5 +1,5 @@
 // The state of our application, so far it only contains the duckdb connection
-use super::{Createable, Entity, Filterable};
+use super::{Createable, Entity, Filterable, Patchable};
 use duckdb::{params_from_iter, Connection, Error};
 use std::sync::Mutex;
 pub struct Database {
@@ -65,6 +65,30 @@ impl Database {
 
         conn.execute(&sql, [id]);
 
+        // this could be updated to query the Row and return it after
+        Ok(id)
+    }
+
+    pub fn execute_update<P>(self, tbl: &str, data: P) -> Result<i64, Error>
+    where
+        P: Patchable,
+    {
+        let id = data.get_id();
+        let columns = data.column_names();
+        let params = data.to_params();
+        let placeholders = columns
+            .iter()
+            .map(|col| format!("{} = ?", col))
+            .collect::<Vec<_>>()
+            .join(",");
+
+        let sql = format!("UPDATE {} SET {} WHERE id = {}", tbl, placeholders, id);
+
+        let conn = self.connection.lock().unwrap(); // TODO make this beter
+
+        conn.execute(&sql, params_from_iter(params.iter()))?;
+
+        // this could be updated to query the Row and return it after
         Ok(id)
     }
 }
@@ -154,6 +178,32 @@ mod tests {
         let id = db.execute_delete("expenses", 1).unwrap();
 
         assert_eq!(id, 1);
+    }
+
+    #[tokio::test]
+    async fn test_update_expense() {
+        let db = setup_test_db("update-expenses").await;
+
+        {
+            let conn = db
+                .connection
+                .lock()
+                .expect("Failed to get database connection");
+            let seed = include_str!("test_seed.sql");
+
+            conn.execute_batch(seed);
+        }
+
+        let expense_for_update = Expense {
+            id: 2,
+            date: "2025-03-05".to_string(),
+            category: "Transport".to_string(),
+            amount: 900,
+        };
+
+        let id = db.execute_update("expenses", expense_for_update).unwrap();
+
+        assert_eq!(id, 2);
     }
 }
 // -- end region:       TESTS

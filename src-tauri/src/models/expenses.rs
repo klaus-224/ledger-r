@@ -1,6 +1,6 @@
 use duckdb::{params, ToSql};
 
-use crate::database::{Createable, Entity, Filterable};
+use crate::database::{Createable, Entity, Filterable, Patchable};
 
 // startregion:  --- Expense
 pub struct Expense {
@@ -20,6 +20,24 @@ impl Entity for Expense {
         };
 
         Ok(expense)
+    }
+}
+
+impl Patchable for Expense {
+    fn get_id(&self) -> i64 {
+        self.id
+    }
+
+    fn column_names(&self) -> Vec<String> {
+        vec![
+            "date".to_string(),
+            "category".to_string(),
+            "amount".to_string(),
+        ]
+    }
+
+    fn to_params(&self) -> Vec<&dyn ToSql> {
+        vec![&self.date, &self.category, &self.amount]
     }
 }
 // endregion:  --- Expense
