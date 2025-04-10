@@ -4,8 +4,8 @@ use duckdb::ToSql;
 
 mod duck_store;
 
-//-- re-exports
-pub use duck_store::Database;
+// --- re-exports
+pub use duck_store::DuckStore;
 
 pub trait Entity: Sized {
     fn from_row(row: &Row) -> Result<Self, Error>;

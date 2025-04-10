@@ -1,11 +1,11 @@
 use tauri::command;
 
 use crate::{
-    database::Database,
+    duck_store::DuckStore,
     models::expenses::{ExpenseController, ExpenseDateFilter},
 };
 
 #[command]
-pub fn get_expenses(database: Database, filter: ExpenseDateFilter) {
-    ExpenseController::get(database, filter);
+pub fn get_expenses(store: DuckStore, filter: ExpenseDateFilter) {
+    ExpenseController::get(store, filter);
 }

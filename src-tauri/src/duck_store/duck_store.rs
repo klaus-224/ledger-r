@@ -3,24 +3,23 @@ use super::{Createable, Entity, Filterable, Patchable};
 use duckdb::{params_from_iter, Connection, Error};
 use std::sync::Mutex;
 
-pub struct Database {
+// startregion: --- DuckStore
+pub struct DuckStore {
     connection: Mutex<Connection>,
 }
 
-impl Database {
+impl DuckStore {
     pub fn new(db_path: &str) -> Result<Self, Error> {
         let connection = Connection::open(db_path).expect("Failed to open db connection");
         let schema_sql = include_str!("schema.sql");
 
         connection.execute_batch(schema_sql)?;
 
-        Ok(Database {
+        Ok(DuckStore {
             connection: Mutex::new(connection),
         })
     }
-}
 
-impl Database {
     pub fn execute_create<C, E>(&self, tbl: &str, data: C) -> Result<E, Error>
     where
         C: Createable,
@@ -93,8 +92,9 @@ impl Database {
         Ok(id)
     }
 }
+// endregion: --- DuckStore
 
-// start region:      -- TESTS
+// startregion: --- TESTS
 #[cfg(test)]
 mod tests {
 
@@ -103,7 +103,7 @@ mod tests {
 
     static DB_PATH: Mutex<Option<String>> = Mutex::new(None);
 
-    async fn setup_test_db(test_name: &str) -> Database {
+    async fn setup_test_db(test_name: &str) -> DuckStore {
         let test_dir = ".tmp".to_string();
 
         std::fs::create_dir_all(&test_dir).expect("Failed to create test-db directory");
@@ -112,7 +112,7 @@ mod tests {
 
         *DB_PATH.lock().unwrap() = Some(db_path.clone());
 
-        Database::new(&db_path).expect("Failed to create test database")
+        DuckStore::new(&db_path).expect("Failed to create test database")
     }
 
     #[tokio::test]
@@ -206,4 +206,4 @@ mod tests {
         assert_eq!(id, 2);
     }
 }
-// -- end region:       TESTS
+// endregion:   --- TESTS

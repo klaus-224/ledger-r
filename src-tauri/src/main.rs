@@ -1,18 +1,17 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-//#![allow(unused)]
 
-// -- Modules
+// --- Modules
 mod commands;
-mod database;
+mod duck_store;
 mod models;
 
-// -- Imports
+// --- Imports
 use commands::get_expenses;
-use database::Database;
+use duck_store::DuckStore;
 
 fn main() {
-    let db_state = Database::new("/data/data.duckdb");
+    let db_state = DuckStore::new("/data/data.duckdb");
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
