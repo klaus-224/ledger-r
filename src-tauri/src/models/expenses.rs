@@ -1,5 +1,6 @@
 use crate::duck_store::{Createable, DuckStore, Entity, Filterable, Patchable};
 use duckdb::ToSql;
+use serde::{Deserialize, Serialize};
 
 // startregion:  --- Expense
 pub struct Expense {
@@ -42,6 +43,7 @@ impl Patchable for Expense {
 // endregion:  --- Expense
 
 // startregion:  --- ExpenseDateFilter
+#[derive(Deserialize)]
 pub struct ExpenseDateFilter {
     pub start_date: String,
     pub end_date: String,
@@ -82,7 +84,7 @@ impl Createable for ExpenseForCreate {
 pub struct ExpenseController();
 
 impl ExpenseController {
-    pub fn get(store: DuckStore, filter: ExpenseDateFilter) {
+    pub fn get(store: &DuckStore, filter: ExpenseDateFilter) {
         let expenses: Vec<Expense> = store.execute_select(filter).expect("Failed or something");
         // TODO: update the error handling
     }

@@ -1,4 +1,4 @@
-use tauri::command;
+use tauri::{command, State};
 
 use crate::{
     duck_store::DuckStore,
@@ -6,6 +6,6 @@ use crate::{
 };
 
 #[command]
-pub fn get_expenses(store: DuckStore, filter: ExpenseDateFilter) {
-    ExpenseController::get(store, filter);
+pub fn get_expenses(store_state: State<DuckStore>, filter: ExpenseDateFilter) {
+    ExpenseController::get(store_state.inner(), filter);
 }
