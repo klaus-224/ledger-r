@@ -1,6 +1,5 @@
-use duckdb::{params, ToSql};
-
-use crate::database::{Createable, Entity, Filterable, Patchable};
+use crate::database::{Createable, Database, Entity, Filterable, Patchable};
+use duckdb::ToSql;
 
 // startregion:  --- Expense
 pub struct Expense {
@@ -78,3 +77,13 @@ impl Createable for ExpenseForCreate {
     }
 }
 // endregion:   --- ExpenseForCreate
+
+// startregion: --- ExpenseController
+pub struct ExpenseController();
+
+impl ExpenseController {
+    pub fn get(db: Database, filter: ExpenseDateFilter) {
+        let expenses: Vec<Expense> = db.execute_select(filter).expect("Failed or something");
+        // TODO: update the error handling
+    }
+}

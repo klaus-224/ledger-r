@@ -2,6 +2,7 @@
 use super::{Createable, Entity, Filterable, Patchable};
 use duckdb::{params_from_iter, Connection, Error};
 use std::sync::Mutex;
+
 pub struct Database {
     connection: Mutex<Connection>,
 }
@@ -20,7 +21,7 @@ impl Database {
 }
 
 impl Database {
-    pub fn execute_create<C, E>(self, tbl: &str, data: C) -> Result<E, Error>
+    pub fn execute_create<C, E>(&self, tbl: &str, data: C) -> Result<E, Error>
     where
         C: Createable,
         E: Entity,
@@ -43,7 +44,7 @@ impl Database {
         Ok(entity)
     }
 
-    pub fn execute_select<F, E>(self, filter: F) -> Result<Vec<E>, Error>
+    pub fn execute_select<F, E>(&self, filter: F) -> Result<Vec<E>, Error>
     where
         F: Filterable,
         E: Entity,
@@ -58,7 +59,7 @@ impl Database {
         entity.collect()
     }
 
-    pub fn execute_delete(self, tbl: &str, id: i64) -> Result<i64, Error> {
+    pub fn execute_delete(&self, tbl: &str, id: i64) -> Result<i64, Error> {
         let conn = self.connection.lock().unwrap(); // TODO this needs to be better
 
         let sql = format!("DELETE FROM {} WHERE id = ?", tbl);
@@ -69,7 +70,7 @@ impl Database {
         Ok(id)
     }
 
-    pub fn execute_update<P>(self, tbl: &str, data: P) -> Result<i64, Error>
+    pub fn execute_update<P>(&self, tbl: &str, data: P) -> Result<i64, Error>
     where
         P: Patchable,
     {
@@ -96,7 +97,6 @@ impl Database {
 // start region:      -- TESTS
 #[cfg(test)]
 mod tests {
-    use std::{fs, path::Path};
 
     use super::*;
     use crate::models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate};
