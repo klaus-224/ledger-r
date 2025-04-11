@@ -4,6 +4,7 @@ use duckdb::ToSql;
 use serde::{Deserialize, Serialize};
 
 // startregion:  --- Expense
+#[derive(Serialize)]
 pub struct Expense {
     pub id: i64,
     pub date: String,
@@ -60,6 +61,7 @@ impl Filterable for ExpenseDateFilter {
 // endregion:  --- ExpenseDateFilter
 
 // startregion:   --- ExpenseForCreate
+#[derive(Serialize)]
 pub struct ExpenseForCreate {
     pub date: String,
     pub category: String,

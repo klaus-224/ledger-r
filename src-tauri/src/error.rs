@@ -1,4 +1,7 @@
-use std::sync::{MutexGuard, PoisonError};
+use std::{
+    fmt::Display,
+    sync::{MutexGuard, PoisonError},
+};
 
 use duckdb::Connection;
 
@@ -19,5 +22,11 @@ impl From<duckdb::Error> for Error {
 impl<T> From<PoisonError<T>> for Error {
     fn from(value: PoisonError<T>) -> Self {
         Error::MutexLockError(value.to_string())
+    }
+}
+
+impl Display for Error {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(fmt, "{self:?}")
     }
 }
