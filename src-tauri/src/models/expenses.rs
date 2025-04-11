@@ -85,8 +85,8 @@ impl Createable for ExpenseForCreate {
 pub struct ExpenseController();
 
 impl ExpenseController {
-    pub fn get(store: &DuckStore, filter: ExpenseDateFilter) -> Result<Vec<Expense>> {
-        let expenses: Vec<Expense> = store.execute_select(filter).expect("Failed or something");
+    pub fn get_by_date(store: &DuckStore, filter: ExpenseDateFilter) -> Result<Vec<Expense>> {
+        let expenses: Vec<Expense> = store.execute_select(filter)?;
         Ok(expenses)
     }
 }

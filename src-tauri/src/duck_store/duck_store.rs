@@ -13,6 +13,8 @@ impl DuckStore {
         let connection = Connection::open(db_path).expect("Failed to open db connection");
         let schema_sql = include_str!("schema.sql");
 
+        // TODO: This error is unrecoverable, I should implement some messaging to the FE and
+        // then close the connection gracefully rather than letting it hang
         connection.execute_batch(schema_sql)?;
 
         Ok(DuckStore {
@@ -34,6 +36,8 @@ impl DuckStore {
             tbl, columns, placeholders
         );
 
+        // TODO: This error is unrecoverable, I should implement some messaging to the FE and
+        // then close the connection gracefully rather than letting it hang
         let conn = self.connection.lock()?;
 
         let mut stmt = conn.prepare(&sql)?;
@@ -51,6 +55,8 @@ impl DuckStore {
         let (sql, expr) = filter.to_params();
         let conn = self.connection.lock()?;
 
+        // TODO: This error is unrecoverable, I should implement some messaging to the FE and
+        // then close the connection gracefully rather than letting it hang
         let mut stmt = conn.prepare(sql)?;
 
         let entity_list = stmt.query_map(params_from_iter(expr.iter()), |row| E::from_row(row))?;
@@ -59,6 +65,8 @@ impl DuckStore {
     }
 
     pub fn execute_delete(&self, tbl: &str, id: i64) -> Result<i64> {
+        // TODO: This error is unrecoverable, I should implement some messaging to the FE and
+        // then close the connection gracefully rather than letting it hang
         let conn = self.connection.lock()?;
 
         let sql = format!("DELETE FROM {} WHERE id = ?", tbl);
