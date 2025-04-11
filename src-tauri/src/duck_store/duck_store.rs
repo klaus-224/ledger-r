@@ -34,7 +34,7 @@ impl DuckStore {
             tbl, columns, placeholders
         );
 
-        let conn = self.connection.lock().unwrap(); // TODO this need to be better
+        let conn = self.connection.lock()?;
 
         let mut stmt = conn.prepare(&sql)?;
 
@@ -49,7 +49,7 @@ impl DuckStore {
         E: Entity,
     {
         let (sql, expr) = filter.to_params();
-        let conn = self.connection.lock().unwrap(); // TODO this needs to be better
+        let conn = self.connection.lock()?;
 
         let mut stmt = conn.prepare(sql)?;
 
@@ -59,7 +59,7 @@ impl DuckStore {
     }
 
     pub fn execute_delete(&self, tbl: &str, id: i64) -> Result<i64> {
-        let conn = self.connection.lock().unwrap(); // TODO this needs to be better
+        let conn = self.connection.lock()?;
 
         let sql = format!("DELETE FROM {} WHERE id = ?", tbl);
 
@@ -84,7 +84,7 @@ impl DuckStore {
 
         let sql = format!("UPDATE {} SET {} WHERE id = {}", tbl, placeholders, id);
 
-        let conn = self.connection.lock().unwrap(); // TODO make this beter
+        let conn = self.connection.lock()?;
 
         conn.execute(&sql, params_from_iter(params.iter()))?;
 
