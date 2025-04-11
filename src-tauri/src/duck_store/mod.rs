@@ -8,7 +8,7 @@ mod duck_store;
 pub use duck_store::DuckStore;
 
 pub trait Entity: Sized {
-    fn from_row(row: &Row) -> Result<Self, Error>;
+    fn from_row(row: &Row) -> Result<Self, duckdb::Error>;
 }
 
 pub trait Createable {

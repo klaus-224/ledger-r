@@ -1,6 +1,6 @@
-// The state of our application, so far it only contains the duckdb connection
 use super::{Createable, Entity, Filterable, Patchable};
-use duckdb::{params_from_iter, Connection, Error};
+use crate::{Error, Result};
+use duckdb::{params_from_iter, Connection};
 use std::sync::Mutex;
 
 // startregion: --- DuckStore
@@ -9,7 +9,7 @@ pub struct DuckStore {
 }
 
 impl DuckStore {
-    pub fn new(db_path: &str) -> Result<Self, Error> {
+    pub fn new(db_path: &str) -> Result<Self> {
         let connection = Connection::open(db_path).expect("Failed to open db connection");
         let schema_sql = include_str!("schema.sql");
 
@@ -20,7 +20,7 @@ impl DuckStore {
         })
     }
 
-    pub fn execute_create<C, E>(&self, tbl: &str, data: C) -> Result<E, Error>
+    pub fn execute_create<C, E>(&self, tbl: &str, data: C) -> Result<E>
     where
         C: Createable,
         E: Entity,
@@ -38,12 +38,12 @@ impl DuckStore {
 
         let mut stmt = conn.prepare(&sql)?;
 
-        let entity: E = stmt.query_row(params_from_iter(params), |row| E::from_row(row))?;
+        let entity = stmt.query_row(params_from_iter(params), |row| E::from_row(row))?;
 
         Ok(entity)
     }
 
-    pub fn execute_select<F, E>(&self, filter: F) -> Result<Vec<E>, Error>
+    pub fn execute_select<F, E>(&self, filter: F) -> Result<Vec<E>>
     where
         F: Filterable,
         E: Entity,
@@ -53,23 +53,23 @@ impl DuckStore {
 
         let mut stmt = conn.prepare(sql)?;
 
-        let entity = stmt.query_map(params_from_iter(expr.iter()), |row| E::from_row(row))?;
+        let entity_list = stmt.query_map(params_from_iter(expr.iter()), |row| E::from_row(row))?;
 
-        entity.collect()
+        entity_list.map(|res| res.map_err(Error::from)).collect()
     }
 
-    pub fn execute_delete(&self, tbl: &str, id: i64) -> Result<i64, Error> {
+    pub fn execute_delete(&self, tbl: &str, id: i64) -> Result<i64> {
         let conn = self.connection.lock().unwrap(); // TODO this needs to be better
 
         let sql = format!("DELETE FROM {} WHERE id = ?", tbl);
 
-        conn.execute(&sql, [id]);
+        conn.execute(&sql, [id])?;
 
         // this could be updated to query the Row and return it after
         Ok(id)
     }
 
-    pub fn execute_update<P>(&self, tbl: &str, data: P) -> Result<i64, Error>
+    pub fn execute_update<P>(&self, tbl: &str, data: P) -> Result<i64>
     where
         P: Patchable,
     {
@@ -126,7 +126,8 @@ mod tests {
                 .expect("Failed to get database connection");
             let seed = include_str!("test_seed.sql");
 
-            conn.execute_batch(seed);
+            conn.execute_batch(seed)
+                .expect("Failed to seed the database");
         }
 
         let filter = ExpenseDateFilter {
@@ -172,7 +173,8 @@ mod tests {
                 .expect("Failed to get database connection");
             let seed = include_str!("test_seed.sql");
 
-            conn.execute_batch(seed);
+            conn.execute_batch(seed)
+                .expect("Failed to seed the database");
         }
 
         let id = db.execute_delete("expenses", 1).unwrap();
@@ -191,7 +193,8 @@ mod tests {
                 .expect("Failed to get database connection");
             let seed = include_str!("test_seed.sql");
 
-            conn.execute_batch(seed);
+            conn.execute_batch(seed)
+                .expect("Failed to seed the database");
         }
 
         let expense_for_update = Expense {

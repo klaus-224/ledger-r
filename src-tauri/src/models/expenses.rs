@@ -1,4 +1,5 @@
 use crate::duck_store::{Createable, DuckStore, Entity, Filterable, Patchable};
+use crate::error::Result;
 use duckdb::ToSql;
 use serde::{Deserialize, Serialize};
 
@@ -11,7 +12,7 @@ pub struct Expense {
 }
 
 impl Entity for Expense {
-    fn from_row(row: &duckdb::Row) -> Result<Self, duckdb::Error> {
+    fn from_row(row: &duckdb::Row) -> std::result::Result<Self, duckdb::Error> {
         let expense = Expense {
             id: row.get(0)?,
             date: row.get(1)?,
@@ -84,8 +85,8 @@ impl Createable for ExpenseForCreate {
 pub struct ExpenseController();
 
 impl ExpenseController {
-    pub fn get(store: &DuckStore, filter: ExpenseDateFilter) {
+    pub fn get(store: &DuckStore, filter: ExpenseDateFilter) -> Result<Vec<Expense>> {
         let expenses: Vec<Expense> = store.execute_select(filter).expect("Failed or something");
-        // TODO: update the error handling
+        Ok(expenses)
     }
 }

@@ -3,7 +3,11 @@
 // --- Modules
 mod commands;
 mod duck_store;
+mod error;
 mod models;
+
+// -- Re-exports
+pub use error::{Error, Result};
 
 // --- Imports
 use commands::get_expenses;
