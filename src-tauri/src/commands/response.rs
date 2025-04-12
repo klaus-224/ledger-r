@@ -11,7 +11,7 @@ pub struct IpcResult<D>
 where
     D: Serialize,
 {
-    pub data: D,
+    data: D,
 }
 
 #[derive(Serialize)]

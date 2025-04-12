@@ -4,7 +4,7 @@ use duckdb::ToSql;
 use serde::{Deserialize, Serialize};
 
 // startregion:  --- Expense
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Expense {
     pub id: i64,
     pub date: String,
@@ -61,7 +61,7 @@ impl Filterable for ExpenseDateFilter {
 // endregion:  --- ExpenseDateFilter
 
 // startregion:   --- ExpenseForCreate
-#[derive(Serialize)]
+#[derive(Deserialize)]
 pub struct ExpenseForCreate {
     pub date: String,
     pub category: String,
@@ -87,8 +87,19 @@ impl Createable for ExpenseForCreate {
 pub struct ExpenseController();
 
 impl ExpenseController {
+    pub fn create(store: &DuckStore, data: ExpenseForCreate) -> Result<Expense> {
+        store.execute_create("expenses", data)
+    }
+
     pub fn get_by_date(store: &DuckStore, filter: ExpenseDateFilter) -> Result<Vec<Expense>> {
-        let expenses: Vec<Expense> = store.execute_select(filter)?;
-        Ok(expenses)
+        store.execute_select(filter)
+    }
+
+    pub fn update(store: &DuckStore, data: Expense) -> Result<i64> {
+        store.execute_update("expenses", data)
+    }
+
+    pub fn delete(store: &DuckStore, id: i64) -> Result<i64> {
+        store.execute_delete("expenses", id)
     }
 }

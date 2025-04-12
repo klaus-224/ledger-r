@@ -10,7 +10,7 @@ mod models;
 pub use error::{Error, Result};
 
 // --- Imports
-use commands::get_expenses;
+use commands::*;
 use duck_store::DuckStore;
 
 fn main() {
@@ -19,7 +19,12 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .manage(db_state)
-        .invoke_handler(tauri::generate_handler![get_expenses])
+        .invoke_handler(tauri::generate_handler![
+            get_expenses_by_date,
+            create_expense,
+            update_expense,
+            delete_expense,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
