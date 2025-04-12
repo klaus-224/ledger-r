@@ -2,9 +2,15 @@ use crate::duck_store::{Createable, DuckStore, Entity, Filterable, Patchable};
 use crate::error::Result;
 use duckdb::ToSql;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 // startregion:  --- Expense
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, TS)]
+#[ts(
+    export,
+    export_to = "../../src/types/models.ts",
+    rename_all = "camelCase"
+)]
 pub struct Expense {
     pub id: i64,
     pub date: String,
@@ -45,7 +51,12 @@ impl Patchable for Expense {
 // endregion:  --- Expense
 
 // startregion:  --- ExpenseDateFilter
-#[derive(Deserialize)]
+#[derive(Deserialize, TS)]
+#[ts(
+    export,
+    export_to = "../../src/types/models.ts",
+    rename_all = "camelCase"
+)]
 pub struct ExpenseDateFilter {
     pub start_date: String,
     pub end_date: String,
@@ -61,7 +72,12 @@ impl Filterable for ExpenseDateFilter {
 // endregion:  --- ExpenseDateFilter
 
 // startregion:   --- ExpenseForCreate
-#[derive(Deserialize)]
+#[derive(Deserialize, TS)]
+#[ts(
+    export,
+    export_to = "../../src/types/models.ts",
+    rename_all = "camelCase"
+)]
 pub struct ExpenseForCreate {
     pub date: String,
     pub category: String,
