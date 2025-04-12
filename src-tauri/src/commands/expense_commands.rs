@@ -16,11 +16,8 @@ pub fn get_expenses_by_date(
 }
 
 #[command]
-pub fn create_expense(
-    store_state: State<DuckStore>,
-    data: ExpenseForCreate,
-) -> IpcResponse<Expense> {
-    ExpenseController::create(store_state.inner(), data).into()
+pub fn create_expense(db_state: State<DuckStore>, data: ExpenseForCreate) -> IpcResponse<Expense> {
+    ExpenseController::create(db_state.inner(), data).into()
 }
 
 #[command]

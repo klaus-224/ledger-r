@@ -12,13 +12,22 @@ pub use error::{Error, Result};
 // --- Imports
 use commands::*;
 use duck_store::DuckStore;
+use tauri::Manager;
 
 fn main() {
-    let db_state = DuckStore::new("/data/data.duckdb");
-
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .manage(db_state)
+        .setup(|app| {
+            let data_dir = ".data";
+            let db_name = "data.db";
+            std::fs::create_dir_all(data_dir).expect("Failed to create test-db directory");
+            let db_path = format!("{}/test_db_{}.db", data_dir, db_name);
+
+            let db_state = DuckStore::new(&db_path).unwrap();
+
+            app.manage(db_state);
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             get_expenses_by_date,
             create_expense,
