@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import SidebarNav from "./sidebar-nav";
+import SidebarNav from "@components/sidebar";
 import { FiSidebar } from "react-icons/fi";
 
 const Layout = ({ children }: { children: ReactNode }) => {

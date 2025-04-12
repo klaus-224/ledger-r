@@ -8,7 +8,7 @@ use ts_rs::TS;
 #[derive(Serialize, Deserialize, TS)]
 #[ts(
     export,
-    export_to = "../../src/types/models.ts",
+    export_to = "../../src/lib/types/models.ts",
     rename_all = "camelCase"
 )]
 pub struct Expense {
@@ -54,7 +54,7 @@ impl Patchable for Expense {
 #[derive(Deserialize, TS)]
 #[ts(
     export,
-    export_to = "../../src/types/models.ts",
+    export_to = "../../src/lib/types/models.ts",
     rename_all = "camelCase"
 )]
 pub struct ExpenseDateFilter {
@@ -75,7 +75,7 @@ impl Filterable for ExpenseDateFilter {
 #[derive(Deserialize, TS)]
 #[ts(
     export,
-    export_to = "../../src/types/models.ts",
+    export_to = "../../src/lib/types/models.ts",
     rename_all = "camelCase"
 )]
 pub struct ExpenseForCreate {

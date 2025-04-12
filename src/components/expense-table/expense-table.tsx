@@ -5,38 +5,38 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
-type Expense = {
-  category: string;
-  description: string;
-  amount: number;
-};
+import { Expense } from "@lib/types/models";
 
 const expenses: Expense[] = [
   {
+    id: BigInt(1),
+    date: "2025-04-12",
     category: "Food",
-    description: "Grocery shopping",
     amount: 85.5,
   },
   {
-    category: "Transportation",
-    description: "Gas refill",
-    amount: 45.0,
+    id: BigInt(1),
+    date: "2025-04-12",
+    category: "Food",
+    amount: 85.5,
   },
   {
-    category: "Entertainment",
-    description: "Movie tickets",
-    amount: 30.0,
+    id: BigInt(1),
+    date: "2025-04-12",
+    category: "Food",
+    amount: 85.5,
   },
   {
-    category: "Utilities",
-    description: "Electricity bill",
-    amount: 120.75,
+    id: BigInt(1),
+    date: "2025-04-12",
+    category: "Food",
+    amount: 85.5,
   },
   {
-    category: "Health",
-    description: "Gym membership",
-    amount: 50.0,
+    id: BigInt(1),
+    date: "2025-04-12",
+    category: "Food",
+    amount: 85.5,
   },
 ];
 

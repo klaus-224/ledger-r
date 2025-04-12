@@ -1,8 +1,8 @@
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
-import ExpenseTable from "./expense-table";
+import ExpenseTable from "@components/expense-table";
 import { invoke } from "@tauri-apps/api/core";
-import { ExpenseForCreate } from "../types/models";
+import { ExpenseForCreate } from "@lib/types/models";
 
 const ExpenseDetail = () => {
   const navigate = useNavigate();
