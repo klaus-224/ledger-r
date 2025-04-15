@@ -1,5 +1,5 @@
-const NetworthPane = () => {
+const NetworthWindow = () => {
   return <div>Neworth Pane</div>;
 };
 
-export default NetworthPane;
+export default NetworthWindow;

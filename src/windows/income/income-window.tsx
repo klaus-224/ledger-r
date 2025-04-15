@@ -1,5 +1,5 @@
-const IncomePane = () => {
+const IncomeWindow = () => {
   return <div>Income Pane</div>;
 };
 
-export default IncomePane;
+export default IncomeWindow;

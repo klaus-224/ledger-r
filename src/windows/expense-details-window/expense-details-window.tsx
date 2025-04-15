@@ -6,7 +6,7 @@ import { ExpenseForCreate } from "@lib/types/models";
 
 // TODO:
 // need to get the expense data here using the yearMonth param => probably need to augment with the day (0 - ( 28, 29, 30, 31 ))
-const ExpenseDetail = () => {
+const ExpenseDetailWindow = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
 
@@ -52,4 +52,4 @@ const ExpenseDetail = () => {
   );
 };
 
-export default ExpenseDetail;
+export default ExpenseDetailWindow;
