@@ -1,7 +1,7 @@
 import SummaryCard from "@components/summary-card";
 import { useNavigate } from "react-router";
 
-const ExpenseWindow = () => {
+const ExpenseView = () => {
   const array = new Array(4).fill(1);
   const navigate = useNavigate();
   // TODO:
@@ -25,4 +25,4 @@ const ExpenseWindow = () => {
   );
 };
 
-export default ExpenseWindow;
+export default ExpenseView;

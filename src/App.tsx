@@ -1,19 +1,19 @@
 import Layout from "@components/layout";
 import { Route, Routes } from "react-router";
-import ExpenseWindow from "@windows/expense";
-import IncomeWindow from "@windows/income";
-import ExpenseDetailWindow from "@windows/expense-details-window";
-import NetworthWindow from "@windows/networth";
+import ExpenseView from "@views/expense";
+import IncomeView from "@views/income";
+import ExpenseDetailView from "@views/expense-details";
+import NetoworthView from "@views/networth";
 
 const App = () => {
   return (
     <Layout>
       <Routes>
-        <Route path="networth" element={<NetworthWindow />} />
-        <Route path="income" element={<IncomeWindow />} />
-        <Route path="expenses" element={<ExpenseWindow />} />
-        <Route path="expenses/new" element={<ExpenseDetailWindow />} />
-        <Route path="expenses/:yearMonth" element={<ExpenseDetailWindow />} />
+        <Route path="networth" element={<NetoworthView />} />
+        <Route path="income" element={<IncomeView />} />
+        <Route path="expenses" element={<ExpenseView />} />
+        <Route path="expenses/new" element={<ExpenseDetailView />} />
+        <Route path="expenses/:yearMonth" element={<ExpenseDetailView />} />
       </Routes>
     </Layout>
   );
