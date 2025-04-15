@@ -1,8 +1,8 @@
 import Layout from "@components/layout";
 import { Route, Routes } from "react-router";
-import NetworthPane from "@panes/networth";
-import ExpensePane from "@panes/expense";
-import IncomePane from "@panes/income";
+import NetworthPane from "@windows/networth";
+import ExpensePane from "@windows/expense";
+import IncomePane from "@windows/income";
 import ExpenseDetail from "@components/expense-details";
 
 const App = () => {

@@ -25,8 +25,8 @@
 			"@components/*": [
 				"./src/components/*"
 			],
-			"@panes/*": [
-				"./src/panes/*"
+			"@windows/*": [
+				"./src/windows/*"
 			],
 			"@lib/*": [
 				"./src/lib/*"
