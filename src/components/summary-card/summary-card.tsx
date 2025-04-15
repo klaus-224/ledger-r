@@ -1,8 +1,14 @@
+// need to add interface for object of this type:
+//
+// {
+// 	date: String,
+// 	totalExpense: String,
+// }
 interface Props {
-	onClick: () => void;
+  onClick: () => void;
 }
 
-const SummaryCard = ({onClick}: Props) => {
+const SummaryCard = ({ onClick }: Props) => {
   return (
     <div className="expense-card" onClick={onClick}>
       <div className="p-4">

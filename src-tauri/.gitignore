@@ -7,4 +7,5 @@
 /gen/schemas
 
 
-.**
+.data/
+.tmp/

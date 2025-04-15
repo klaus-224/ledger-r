@@ -4,6 +4,9 @@ import { useNavigate } from "react-router";
 const ExpensePane = () => {
   const array = new Array(4).fill(1);
   const navigate = useNavigate();
+  // TODO:
+  // need to get distinct year/month
+  // need to get aggregation of expenses in the mont
 
   return (
     <div className="pane">
