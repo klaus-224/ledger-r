@@ -18,7 +18,7 @@ const ExpenseView = () => {
       </div>
       <div className="flex flex-row flex-wrap justify-between gap-y-5">
         {array.map(() => (
-          <SummaryCard onClick={() => navigate("/expenses/2025-03")} />
+          <SummaryCard onClick={() => navigate("/expenses/2025-04")} />
         ))}
       </div>
     </div>

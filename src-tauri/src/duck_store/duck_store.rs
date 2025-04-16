@@ -16,6 +16,11 @@ impl DuckStore {
         // TODO: This error is unrecoverable, I should implement some messaging to the FE and
         // then close the connection gracefully rather than letting it hang
         connection.execute_batch(schema_sql)?;
+        let seed = include_str!("test_seed.sql");
+
+        connection
+            .execute_batch(seed)
+            .expect("Failed to seed the database");
 
         Ok(DuckStore {
             connection: Mutex::new(connection),

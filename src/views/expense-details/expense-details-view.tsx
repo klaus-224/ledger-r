@@ -1,32 +1,18 @@
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
-import { invoke } from "@tauri-apps/api/core";
-import { ExpenseForCreate } from "@lib/types/models";
+import { useExpense } from "@lib/hooks/useExpense";
 
 // TODO:
 // need to get the expense data here using the yearMonth param => probably need to augment with the day (0 - ( 28, 29, 30, 31 ))
+// make a new expense view
 const ExpenseView = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
-
   const isNewExpense = !yearMonth;
 
-  const createExpense = async () => {
-    const expense: ExpenseForCreate = {
-      date: "2025-04-11",
-      category: "Food",
-      amount: 20,
-    };
-    try {
-      const response = await invoke("create_expense", {
-        data: expense,
-      });
-      console.log(response);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { expenses } = useExpense(`${yearMonth}-01`);
+  console.log(expenses);
 
   return (
     <div className="pane">
@@ -43,10 +29,7 @@ const ExpenseView = () => {
         <button className="button">Save</button>
       </div>
       <div className="w-full relative">
-        <button className="button" onClick={() => createExpense()}>
-          Create Expense
-        </button>
-        {/* <ExpenseTable /> */}
+        <ExpenseTable />
       </div>
     </div>
   );

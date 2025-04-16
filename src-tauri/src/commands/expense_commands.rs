@@ -10,22 +10,25 @@ use super::response::IpcResponse;
 #[command]
 pub fn get_expenses_by_date(
     store_state: State<DuckStore>,
-    date_filter: ExpenseDateFilter,
+    params: ExpenseDateFilter,
 ) -> IpcResponse<Vec<Expense>> {
-    ExpenseController::get_by_date(store_state.inner(), date_filter).into()
+    ExpenseController::get_by_date(store_state.inner(), params).into()
 }
 
 #[command]
-pub fn create_expense(db_state: State<DuckStore>, data: ExpenseForCreate) -> IpcResponse<Expense> {
-    ExpenseController::create(db_state.inner(), data).into()
+pub fn create_expense(
+    db_state: State<DuckStore>,
+    input_data: ExpenseForCreate,
+) -> IpcResponse<Expense> {
+    ExpenseController::create(db_state.inner(), input_data).into()
 }
 
 #[command]
-pub fn update_expense(store_state: State<DuckStore>, data: Expense) -> IpcResponse<i64> {
-    ExpenseController::update(store_state.inner(), data).into()
+pub fn update_expense(store_state: State<DuckStore>, input_data: Expense) -> IpcResponse<i64> {
+    ExpenseController::update(store_state.inner(), input_data).into()
 }
 
 #[command]
-pub fn delete_expense(store_state: State<DuckStore>, id: i64) -> IpcResponse<i64> {
-    ExpenseController::delete(store_state.inner(), id).into()
+pub fn delete_expense(store_state: State<DuckStore>, input_data: i64) -> IpcResponse<i64> {
+    ExpenseController::delete(store_state.inner(), input_data).into()
 }
