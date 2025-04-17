@@ -3,6 +3,7 @@ import {
   ExpenseDateFilter,
   ExpenseForCreate,
   ListParams,
+  DeleteParams,
 } from "@lib/types/models";
 import { useEffect, useState } from "react";
 import { getEndOfMonth } from "@lib/utils/date";
@@ -41,11 +42,19 @@ export const useExpense = (startDate: string) => {
     getExpenses();
   }, [startDate]);
 
-  // const deleteExpense = async (id: string) => {
-  //   const { result, error } = await invokeIpc("delete_expense", { id });
-  //   return { result, error };
-  // };
-  //
+  const deleteExpense = async (id: number) => {
+    const params: DeleteParams = {
+      id: id,
+    };
+
+    try {
+      const result = await invokeIpc<Expense>("delete_expense", params);
+      return result;
+    } catch (e: any) {
+      setError(e);
+    }
+  };
+
   // const updateExpense = async (expense: Expense) => {
   //   const { result, error } = await invokeIpc("update_expense", { ...expense });
   //   return { result, error };
@@ -55,12 +64,12 @@ export const useExpense = (startDate: string) => {
   //   const { result, error } = await invokeIpc("create_expense", { ...expense });
   //   return { result, error };
   // };
-  //
+
   return {
     expenses,
     error,
     // createExpense,
-    // deleteExpense,
+    deleteExpense,
     // updateExpense,
   };
 };

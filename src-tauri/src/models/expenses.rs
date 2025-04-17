@@ -116,7 +116,7 @@ impl ExpenseController {
         store.execute_update("expenses", params)
     }
 
-    pub fn delete(store: &DuckStore, params: i64) -> Result<i64> {
+    pub fn delete(store: &DuckStore, params: i32) -> Result<i32> {
         store.execute_delete("expenses", params)
     }
 }

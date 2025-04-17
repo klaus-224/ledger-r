@@ -13,7 +13,7 @@ export async function invokeIpc<T>(command: string, params: any): Promise<T> {
 
     return response.result.data;
   } catch (e) {
-    console.log("Critical Error");
+    console.log("Critical Error:", e);
     throw new Error(`Unknown error in command ${command}`);
   }
 }

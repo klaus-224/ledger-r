@@ -5,7 +5,10 @@ use crate::{
     models::expenses::{Expense, ExpenseController, ExpenseDateFilter, ExpenseForCreate},
 };
 
-use super::{params::ListParams, response::IpcResponse};
+use super::{
+    params::{DeleteParams, ListParams},
+    response::IpcResponse,
+};
 
 #[command(rename_all = "camelCase")]
 pub fn get_expenses_by_date(
@@ -30,6 +33,6 @@ pub fn update_expense(store_state: State<DuckStore>, params: Expense) -> IpcResp
 }
 
 #[command(rename_all = "camelCase")]
-pub fn delete_expense(store_state: State<DuckStore>, params: i64) -> IpcResponse<i64> {
-    ExpenseController::delete(store_state.inner(), params).into()
+pub fn delete_expense(store_state: State<DuckStore>, params: DeleteParams) -> IpcResponse<i32> {
+    ExpenseController::delete(store_state.inner(), params.id).into()
 }

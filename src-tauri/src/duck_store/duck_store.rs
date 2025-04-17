@@ -69,8 +69,8 @@ impl DuckStore {
         entity_list.map(|res| res.map_err(Error::from)).collect()
     }
 
-    pub fn execute_delete(&self, tbl: &str, id: i64) -> Result<i64> {
-        // TODO: This error is unrecoverable, I should implement some messaging to the FE and
+    pub fn execute_delete(&self, tbl: &str, id: i32) -> Result<i32> {
+        // TODO: This error is unrecoverable, I shoul  implement some messaging to the FE and
         // then close the connection gracefully rather than letting it hang
         let conn = self.connection.lock()?;
 

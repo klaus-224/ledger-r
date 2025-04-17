@@ -3,16 +3,17 @@ import { useNavigate, useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
 
-// TODO:
-// need to get the expense data here using the yearMonth param => probably need to augment with the day (0 - ( 28, 29, 30, 31 ))
-// make a new expense view
 const ExpenseView = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
   const isNewExpense = !yearMonth;
 
-  const { expenses } = useExpense(`${yearMonth}-01`);
+  const { expenses, deleteExpense } = useExpense(`${yearMonth}-01`);
   console.log(expenses);
+
+  const handleDelete = () => {
+    deleteExpense(1);
+  };
 
   return (
     <div className="pane">
@@ -29,6 +30,9 @@ const ExpenseView = () => {
         <button className="button">Save</button>
       </div>
       <div className="w-full relative">
+        <button className="button" onClick={handleDelete}>
+          delete
+        </button>
         <ExpenseTable />
       </div>
     </div>
