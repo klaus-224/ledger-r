@@ -1,23 +1,27 @@
 use crate::error::Result;
 use serde::Serialize;
+use ts_rs::TS;
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export, export_to = "../../src/lib/types/")]
 pub struct IpcError {
     message: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export, export_to = "../../src/lib/types/")]
 pub struct IpcResult<D>
 where
-    D: Serialize,
+    D: Serialize + TS,
 {
     data: D,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export, export_to = "../../src/lib/types/")]
 pub struct IpcResponse<D>
 where
-    D: Serialize,
+    D: Serialize + TS,
 {
     error: Option<IpcError>,
     result: Option<IpcResult<D>>,
@@ -25,7 +29,7 @@ where
 
 impl<D> From<Result<D>> for IpcResponse<D>
 where
-    D: Serialize,
+    D: Serialize + TS,
 {
     fn from(res: Result<D>) -> Self {
         match res {

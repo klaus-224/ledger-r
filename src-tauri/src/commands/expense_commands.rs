@@ -7,7 +7,7 @@ use crate::{
 
 use super::response::IpcResponse;
 
-#[command]
+#[command(rename_all = "camelCase")]
 pub fn get_expenses_by_date(
     store_state: State<DuckStore>,
     params: ExpenseDateFilter,
@@ -15,20 +15,20 @@ pub fn get_expenses_by_date(
     ExpenseController::get_by_date(store_state.inner(), params).into()
 }
 
-#[command]
+#[command(rename_all = "camelCase")]
 pub fn create_expense(
     db_state: State<DuckStore>,
-    input_data: ExpenseForCreate,
+    params: ExpenseForCreate,
 ) -> IpcResponse<Expense> {
-    ExpenseController::create(db_state.inner(), input_data).into()
+    ExpenseController::create(db_state.inner(), params).into()
 }
 
-#[command]
-pub fn update_expense(store_state: State<DuckStore>, input_data: Expense) -> IpcResponse<i64> {
-    ExpenseController::update(store_state.inner(), input_data).into()
+#[command(rename_all = "camelCase")]
+pub fn update_expense(store_state: State<DuckStore>, params: Expense) -> IpcResponse<i64> {
+    ExpenseController::update(store_state.inner(), params).into()
 }
 
-#[command]
-pub fn delete_expense(store_state: State<DuckStore>, input_data: i64) -> IpcResponse<i64> {
-    ExpenseController::delete(store_state.inner(), input_data).into()
+#[command(rename_all = "camelCase")]
+pub fn delete_expense(store_state: State<DuckStore>, params: i64) -> IpcResponse<i64> {
+    ExpenseController::delete(store_state.inner(), params).into()
 }

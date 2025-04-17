@@ -103,19 +103,19 @@ impl Createable for ExpenseForCreate {
 pub struct ExpenseController();
 
 impl ExpenseController {
-    pub fn create(store: &DuckStore, input_data: ExpenseForCreate) -> Result<Expense> {
-        store.execute_create("expenses", input_data)
+    pub fn create(store: &DuckStore, params: ExpenseForCreate) -> Result<Expense> {
+        store.execute_create("expenses", params)
     }
 
     pub fn get_by_date(store: &DuckStore, params: ExpenseDateFilter) -> Result<Vec<Expense>> {
         store.execute_select(params)
     }
 
-    pub fn update(store: &DuckStore, input_data: Expense) -> Result<i64> {
-        store.execute_update("expenses", input_data)
+    pub fn update(store: &DuckStore, params: Expense) -> Result<i64> {
+        store.execute_update("expenses", params)
     }
 
-    pub fn delete(store: &DuckStore, id: i64) -> Result<i64> {
-        store.execute_delete("expenses", id)
+    pub fn delete(store: &DuckStore, params: i64) -> Result<i64> {
+        store.execute_delete("expenses", params)
     }
 }
