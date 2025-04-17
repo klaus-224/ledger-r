@@ -1,4 +1,9 @@
-import { Expense, ExpenseForCreate } from "@lib/types/models";
+import {
+  Expense,
+  ExpenseDateFilter,
+  ExpenseForCreate,
+  ListParams,
+} from "@lib/types/models";
 import { useEffect, useState } from "react";
 import { getEndOfMonth } from "@lib/utils/date";
 import { invokeIpc } from "@lib/utils/invoke-ipc";
@@ -13,39 +18,49 @@ export const useExpense = (startDate: string) => {
   useEffect(() => {
     const endDate = getEndOfMonth(startDate);
 
-    const getExpenses = async () => {
-      const { result, error } = await invokeIpc("get_expenses_by_date", {
-        start_date: startDate,
-        end_date: endDate,
-      });
+    const params: ListParams<ExpenseDateFilter> = {
+      data: {
+        startDate,
+        endDate,
+      },
+    };
 
-      setExpenses(result);
-      setError(error);
+    const getExpenses = async () => {
+      try {
+        const result = await invokeIpc<Expense[]>(
+          "get_expenses_by_date",
+          params,
+        );
+
+        setExpenses(result);
+      } catch (e) {
+        setError(error);
+      }
     };
 
     getExpenses();
-  }, []);
+  }, [startDate]);
 
-  const deleteExpense = async (id: string) => {
-    const { result, error } = await invokeIpc("delete_expense", { id });
-    return { result, error };
-  };
-
-  const updateExpense = async (expense: Expense) => {
-    const { result, error } = await invokeIpc("update_expense", { ...expense });
-    return { result, error };
-  };
-
-  const createExpense = async (expense: ExpenseForCreate) => {
-    const { result, error } = await invokeIpc("create_expense", { ...expense });
-    return { result, error };
-  };
-
+  // const deleteExpense = async (id: string) => {
+  //   const { result, error } = await invokeIpc("delete_expense", { id });
+  //   return { result, error };
+  // };
+  //
+  // const updateExpense = async (expense: Expense) => {
+  //   const { result, error } = await invokeIpc("update_expense", { ...expense });
+  //   return { result, error };
+  // };
+  //
+  // const createExpense = async (expense: ExpenseForCreate) => {
+  //   const { result, error } = await invokeIpc("create_expense", { ...expense });
+  //   return { result, error };
+  // };
+  //
   return {
     expenses,
     error,
-    createExpense,
-    deleteExpense,
-    updateExpense,
+    // createExpense,
+    // deleteExpense,
+    // updateExpense,
   };
 };

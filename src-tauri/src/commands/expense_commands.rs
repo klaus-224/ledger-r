@@ -5,13 +5,14 @@ use crate::{
     models::expenses::{Expense, ExpenseController, ExpenseDateFilter, ExpenseForCreate},
 };
 
-use super::response::IpcResponse;
+use super::{params::ListParams, response::IpcResponse};
 
 #[command(rename_all = "camelCase")]
 pub fn get_expenses_by_date(
     store_state: State<DuckStore>,
-    params: ExpenseDateFilter,
+    params: ListParams<ExpenseDateFilter>,
 ) -> IpcResponse<Vec<Expense>> {
+    let params = params.data;
     ExpenseController::get_by_date(store_state.inner(), params).into()
 }
 

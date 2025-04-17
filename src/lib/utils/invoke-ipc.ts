@@ -1,17 +1,19 @@
 import { invoke } from "@tauri-apps/api/core";
 
 // TODO: not great usage of TS, improve in the future
-export async function invokeIpc(
-  command: string,
-  params: any,
-): Promise<{ error: string; result: any }> {
+export async function invokeIpc<T>(command: string, params: any): Promise<T> {
   try {
-    const response: any = await invoke(command, {
+    const response: { result: any; error: String } = await invoke(command, {
       params,
     });
-    return { ...response };
+
+    if (response.error) {
+      throw new Error(`Command error ${response.error}`);
+    }
+
+    return response.result.data;
   } catch (e) {
     console.log("Critical Error");
-    return { result: null, error: "critical error" };
+    throw new Error(`Unknown error in command ${command}`);
   }
 }

@@ -5,3 +5,5 @@ export type Expense = { id: bigint, date: string, category: string, amount: numb
 export type ExpenseDateFilter = { startDate: string, endDate: string, };
 
 export type ExpenseForCreate = { date: string, category: string, amount: number, };
+
+export type ListParams<F> = { data: F, };

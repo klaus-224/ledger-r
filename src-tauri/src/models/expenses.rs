@@ -57,6 +57,7 @@ impl Patchable for Expense {
     export_to = "../../src/lib/types/models.ts",
     rename_all = "camelCase"
 )]
+#[serde(rename_all = "camelCase")]
 pub struct ExpenseDateFilter {
     pub start_date: String,
     pub end_date: String,
