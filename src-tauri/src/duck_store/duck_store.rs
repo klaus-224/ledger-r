@@ -11,16 +11,11 @@ pub struct DuckStore {
 impl DuckStore {
     pub fn new(db_path: &str) -> Result<Self> {
         let connection = Connection::open(db_path).expect("Failed to open db connection");
-        let schema_sql = include_str!("schema.sql");
+        let schema_sql = include_str!("schemas/schema.sql");
 
         // TODO: This error is unrecoverable, I should implement some messaging to the FE and
         // then close the connection gracefully rather than letting it hang
         connection.execute_batch(schema_sql)?;
-        let seed = include_str!("test_seed.sql");
-
-        connection
-            .execute_batch(seed)
-            .expect("Failed to seed the database");
 
         Ok(DuckStore {
             connection: Mutex::new(connection),
@@ -137,7 +132,7 @@ mod tests {
                 .connection
                 .lock()
                 .expect("Failed to get database connection");
-            let seed = include_str!("test_seed.sql");
+            let seed = include_str!("seeds/test_seed.sql");
 
             conn.execute_batch(seed)
                 .expect("Failed to seed the database");
@@ -184,7 +179,7 @@ mod tests {
                 .connection
                 .lock()
                 .expect("Failed to get database connection");
-            let seed = include_str!("test_seed.sql");
+            let seed = include_str!("seeds/test_seed.sql");
 
             conn.execute_batch(seed)
                 .expect("Failed to seed the database");
@@ -204,7 +199,7 @@ mod tests {
                 .connection
                 .lock()
                 .expect("Failed to get database connection");
-            let seed = include_str!("test_seed.sql");
+            let seed = include_str!("seeds/test_seed.sql");
 
             conn.execute_batch(seed)
                 .expect("Failed to seed the database");

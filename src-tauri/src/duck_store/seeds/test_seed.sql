@@ -1,3 +1,14 @@
+drop table expenses;
+
+CREATE SEQUENCE IF NOT EXISTS seq_expense_id START 1;
+
+CREATE TABLE IF NOT EXISTS expenses (
+	id INTEGER PRIMARY KEY DEFAULT nextval('seq_expense_id'),
+	date TEXT,
+	category TEXT,
+	amount INTEGER
+);
+
 INSERT INTO expenses (date, category, amount) VALUES ('2025-03-01', 'Food', '366');
 INSERT INTO expenses (date, category, amount) VALUES ('2025-03-05', 'Transport', '775');
 INSERT INTO expenses (date, category, amount) VALUES ('2025-03-12', 'Entertainment', '791');
