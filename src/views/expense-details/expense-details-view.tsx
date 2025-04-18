@@ -6,10 +6,8 @@ import { useExpense } from "@lib/hooks/useExpense";
 const ExpenseView = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
-  const isNewExpense = !yearMonth;
 
   const { expenses, deleteExpense } = useExpense(`${yearMonth}-01`);
-  console.log(expenses);
 
   const handleDelete = () => {
     deleteExpense(1);
@@ -25,7 +23,7 @@ const ExpenseView = () => {
         >
           <FaArrowLeft />
         </button>
-        <h2>Expense Detail - {isNewExpense ? "New" : `${yearMonth}`}</h2>
+        <h2>Expense Detail - {yearMonth}</h2>
         <input id="date-input" type="date" className="date-picker" />
         <button className="button">Save</button>
       </div>

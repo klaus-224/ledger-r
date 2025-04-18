@@ -55,21 +55,45 @@ export const useExpense = (startDate: string) => {
     }
   };
 
-  // const updateExpense = async (expense: Expense) => {
-  //   const { result, error } = await invokeIpc("update_expense", { ...expense });
-  //   return { result, error };
-  // };
-  //
-  // const createExpense = async (expense: ExpenseForCreate) => {
-  //   const { result, error } = await invokeIpc("create_expense", { ...expense });
-  //   return { result, error };
-  // };
+  const updateExpense = async (expenseToUpdate: Expense) => {
+    try {
+      // what is happening here???
+      const _ = await invokeIpc<number>("update_expense", {
+        ...expenseToUpdate,
+      });
+
+      const updatedExpenses = expenses.map((expense) => {
+        if (expense.id === expenseToUpdate.id) {
+          return expenseToUpdate;
+        }
+
+        return expense;
+      });
+
+      setExpenses(updatedExpenses);
+    } catch (e: any) {
+      setError(e);
+    }
+  };
+
+  const createExpense = async (expenseToCreate: ExpenseForCreate) => {
+    try {
+      const expense = await invokeIpc<Expense>("create_expense", {
+        ...expenseToCreate,
+      });
+
+      setExpenses((oldExpenses) => [...oldExpenses, expense]);
+    } catch (e: any) {
+      console.log(e);
+      setError(e);
+    }
+  };
 
   return {
     expenses,
     error,
-    // createExpense,
+    createExpense,
     deleteExpense,
-    // updateExpense,
+    updateExpense,
   };
 };
