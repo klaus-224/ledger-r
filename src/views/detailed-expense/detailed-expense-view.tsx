@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
 
-const ExpenseView = () => {
+const DetailedExpense = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
 
@@ -37,4 +37,4 @@ const ExpenseView = () => {
   );
 };
 
-export default ExpenseView;
+export default DetailedExpense;
