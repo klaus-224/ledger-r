@@ -11,6 +11,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
     DuckDBError(duckdb::Error),
     MutexLockError(String),
+    TauriError(String),
 }
 
 impl From<duckdb::Error> for Error {
@@ -22,6 +23,12 @@ impl From<duckdb::Error> for Error {
 impl<T> From<PoisonError<T>> for Error {
     fn from(value: PoisonError<T>) -> Self {
         Error::MutexLockError(value.to_string())
+    }
+}
+
+impl From<tauri::Error> for Error {
+    fn from(value: tauri::Error) -> Self {
+        Error::TauriError(value.to_string())
     }
 }
 
