@@ -18,11 +18,7 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
-            let data_dir = ".data";
-            let db_name = "data.db";
-            std::fs::create_dir_all(data_dir).expect("Failed to create test-db directory");
-            let db_path = format!("{}/test_db_{}.db", data_dir, db_name);
-
+            let db_path = duck_store::db_seed("dev");
             let db_state = DuckStore::new(&db_path).unwrap();
 
             app.manage(db_state);

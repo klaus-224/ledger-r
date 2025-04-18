@@ -2,9 +2,11 @@ use duckdb::Error;
 use duckdb::Row;
 use duckdb::ToSql;
 
+mod db_seed;
 mod duck_store;
 
 // --- re-exports
+pub use db_seed::db_seed;
 pub use duck_store::DuckStore;
 
 pub trait Entity: Sized {

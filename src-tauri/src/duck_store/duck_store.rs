@@ -107,25 +107,20 @@ impl DuckStore {
 mod tests {
 
     use super::*;
-    use crate::models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate};
+    use crate::{
+        duck_store::db_seed,
+        models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate},
+    };
 
-    static DB_PATH: Mutex<Option<String>> = Mutex::new(None);
-
-    async fn setup_test_db(test_name: &str) -> DuckStore {
-        let test_dir = ".tmp".to_string();
-
-        std::fs::create_dir_all(&test_dir).expect("Failed to create test-db directory");
-
-        let db_path = format!("{}/test_db_{}.db", test_dir, test_name);
-
-        *DB_PATH.lock().unwrap() = Some(db_path.clone());
+    async fn setup_test_db() -> DuckStore {
+        let db_path = db_seed("test");
 
         DuckStore::new(&db_path).expect("Failed to create test database")
     }
 
     #[tokio::test]
     async fn test_select_all_expenses() {
-        let db = setup_test_db("select-expenses").await;
+        let db = setup_test_db().await;
 
         {
             let conn = db
@@ -155,7 +150,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_create_expense() {
-        let db = setup_test_db("create-expenses").await;
+        let db = setup_test_db().await;
 
         let expense_for_create = ExpenseForCreate {
             date: "2025-04-07".to_string(),
@@ -172,18 +167,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_delete_expense() {
-        let db = setup_test_db("delete-expenses").await;
-
-        {
-            let conn = db
-                .connection
-                .lock()
-                .expect("Failed to get database connection");
-            let seed = include_str!("seeds/test_seed.sql");
-
-            conn.execute_batch(seed)
-                .expect("Failed to seed the database");
-        }
+        let db = setup_test_db().await;
 
         let id = db.execute_delete("expenses", 1).unwrap();
 
@@ -192,18 +176,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_update_expense() {
-        let db = setup_test_db("update-expenses").await;
-
-        {
-            let conn = db
-                .connection
-                .lock()
-                .expect("Failed to get database connection");
-            let seed = include_str!("seeds/test_seed.sql");
-
-            conn.execute_batch(seed)
-                .expect("Failed to seed the database");
-        }
+        let db = setup_test_db().await;
 
         let expense_for_update = Expense {
             id: 2,
