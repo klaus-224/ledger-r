@@ -5,15 +5,14 @@ use duckdb::Connection;
 
 pub fn db_seed(env: &str) -> String {
     let mut current_dir = env::current_dir().unwrap();
-    current_dir.push("../../.data");
+    current_dir.push(".data");
 
     let db_dir = current_dir.as_path();
     let db_dir = db_dir.to_str().unwrap();
     // create the data dir if it exists
     std::fs::create_dir_all(db_dir).expect("Failed to create test-db directory");
 
-    let db_name = format!("{}.data.db", env);
-    let db_path = format!("{}/test_db_{}.db", db_dir, db_name);
+    let db_path = format!("{}/{}.data.db", db_dir, env);
 
     // open db and apply schema
     let connection = Connection::open(&db_path).expect("Failed to open db connection");
