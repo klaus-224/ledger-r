@@ -12,7 +12,7 @@ use ts_rs::TS;
     rename_all = "camelCase"
 )]
 pub struct Expense {
-    pub id: i64,
+    pub id: i32,
     pub date: String,
     pub category: String,
     pub amount: i32,
@@ -32,7 +32,7 @@ impl Entity for Expense {
 }
 
 impl Patchable for Expense {
-    fn get_id(&self) -> i64 {
+    fn get_id(&self) -> i32 {
         self.id
     }
 
@@ -112,7 +112,7 @@ impl ExpenseController {
         store.execute_select(params)
     }
 
-    pub fn update(store: &DuckStore, params: Expense) -> Result<i64> {
+    pub fn update(store: &DuckStore, params: Expense) -> Result<i32> {
         store.execute_update("expenses", params)
     }
 

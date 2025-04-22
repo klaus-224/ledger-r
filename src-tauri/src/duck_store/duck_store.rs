@@ -77,7 +77,7 @@ impl DuckStore {
         Ok(id)
     }
 
-    pub fn execute_update<P>(&self, tbl: &str, data: P) -> Result<i64>
+    pub fn execute_update<P>(&self, tbl: &str, data: P) -> Result<i32>
     where
         P: Patchable,
     {

@@ -28,7 +28,7 @@ pub fn create_expense(
 }
 
 #[command(rename_all = "camelCase")]
-pub fn update_expense(store_state: State<DuckStore>, params: Expense) -> IpcResponse<i64> {
+pub fn update_expense(store_state: State<DuckStore>, params: Expense) -> IpcResponse<i32> {
     ExpenseController::update(store_state.inner(), params).into()
 }
 

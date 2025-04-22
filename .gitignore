@@ -27,3 +27,4 @@ dist-ssr
 */test/**
 */test.db
 *.db
+mock-data

@@ -23,7 +23,7 @@ pub trait Filterable {
 }
 
 pub trait Patchable {
-    fn get_id(&self) -> i64;
+    fn get_id(&self) -> i32;
     fn column_names(&self) -> Vec<String>;
     fn to_params(&self) -> Vec<&dyn ToSql>;
 }
