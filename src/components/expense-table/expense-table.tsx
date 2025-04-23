@@ -5,8 +5,17 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Expense } from "@lib/types/models";
+import { EditableCell } from "./editable-cell";
 
-const ExpenseTable = ({ expenses }: { expenses: Expense[] }) => {
+const ExpenseTable = ({
+  expenses,
+  onUpdate,
+  onDelete,
+}: {
+  expenses: Expense[];
+  onUpdate: (expense: Expense) => Promise<void>;
+  onDelete: (id: number) => Promise<Expense | undefined>;
+}) => {
   const columns: ColumnDef<Expense>[] = [
     {
       accessorKey: "date",
@@ -15,16 +24,12 @@ const ExpenseTable = ({ expenses }: { expenses: Expense[] }) => {
     {
       accessorKey: "category",
       header: "Category",
-      cell: (info) => {
-        return <input type="text" value={info.getValue()} />;
-      },
+      cell: (props) => <EditableCell onUpdate={onUpdate} {...props} />,
     },
     {
       accessorKey: "amount",
       header: "Amount",
-      cell: (info) => {
-        return <input type="number" value={info.getValue()} />;
-      },
+      cell: (props) => <EditableCell onUpdate={onUpdate} {...props} />,
     },
   ];
 

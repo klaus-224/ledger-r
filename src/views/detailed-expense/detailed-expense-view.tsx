@@ -8,7 +8,9 @@ const DetailedExpense = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
 
-  const { expenses, deleteExpense } = useExpense(`${yearMonth}-01`);
+  const { expenses, updateExpense, deleteExpense } = useExpense(
+    `${yearMonth}-01`,
+  );
 
   const handleDelete = () => {
     deleteExpense(1);
@@ -26,10 +28,13 @@ const DetailedExpense = () => {
         </button>
         <h2>Expense Detail - {yearMonth}</h2>
         <input id="date-input" type="date" className="date-picker" />
-        <button className="button">Save</button>
       </div>
       <div className="table-container">
-        <ExpenseTable expenses={expenses} />
+        <ExpenseTable
+          expenses={expenses}
+          onCreate={updateExpense}
+          onDelete={deleteExpense}
+        />
       </div>
     </div>
   );
