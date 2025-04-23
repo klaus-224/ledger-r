@@ -2,6 +2,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
+import { Expense } from "@lib/types/models";
 
 const DetailedExpense = () => {
   const navigate = useNavigate();
@@ -27,11 +28,8 @@ const DetailedExpense = () => {
         <input id="date-input" type="date" className="date-picker" />
         <button className="button">Save</button>
       </div>
-      <div className="w-full relative">
-        <button className="button" onClick={handleDelete}>
-          delete
-        </button>
-        <ExpenseTable />
+      <div className="table-container">
+        <ExpenseTable expenses={expenses} />
       </div>
     </div>
   );

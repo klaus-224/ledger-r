@@ -1,73 +1,42 @@
-import { useState } from "react";
 import {
-  createColumnHelper,
+  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { Expense } from "@lib/types/models";
 
-const expenses: Expense[] = [
-  {
-    id: BigInt(1),
-    date: "2025-04-12",
-    category: "Food",
-    amount: 85.5,
-  },
-  {
-    id: BigInt(1),
-    date: "2025-04-12",
-    category: "Food",
-    amount: 85.5,
-  },
-  {
-    id: BigInt(1),
-    date: "2025-04-12",
-    category: "Food",
-    amount: 85.5,
-  },
-  {
-    id: BigInt(1),
-    date: "2025-04-12",
-    category: "Food",
-    amount: 85.5,
-  },
-  {
-    id: BigInt(1),
-    date: "2025-04-12",
-    category: "Food",
-    amount: 85.5,
-  },
-];
-
-const ExpenseTable = () => {
-  const [data, setData] = useState(expenses);
-
-  const columnHelper = createColumnHelper<Expense>();
-
-  const columns = [
-    columnHelper.accessor("category", {
+const ExpenseTable = ({ expenses }: { expenses: Expense[] }) => {
+  const columns: ColumnDef<Expense>[] = [
+    {
+      accessorKey: "date",
+      header: "Date",
+    },
+    {
+      accessorKey: "category",
       header: "Category",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("description", {
-      header: "Description",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("amount", {
+      cell: (info) => {
+        return <input type="text" value={info.getValue()} />;
+      },
+    },
+    {
+      accessorKey: "amount",
       header: "Amount",
-      cell: (info) => info.getValue(),
-    }),
+      cell: (info) => {
+        return <input type="number" value={info.getValue()} />;
+      },
+    },
   ];
 
   const table = useReactTable({
-    data,
+    data: expenses,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (originalRow) => originalRow.id.toString(),
   });
 
   return (
-    <table className="absolute top-1/2 left-1/2 transform -translate-x-1/2">
+    <table>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
