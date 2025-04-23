@@ -27,7 +27,7 @@
 - [x] Build expense detail page
 - [x] Build mock pages for Income and Networth
 - [ ] Build ExpenseTable component => this could be extended for the income and networth tables or just take the ideas and make these tables
-- [ ] make custom hook for expenses
+- [x] make custom hook for expenses
 - [ ] make custom hook for expense summary
 
 ##### Not yet
