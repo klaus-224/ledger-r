@@ -2,15 +2,28 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
-import { Expense } from "@lib/types/models";
+import dayjs from "dayjs";
+import { ExpenseForCreate } from "@lib/types/models";
 
 const DetailedExpense = () => {
   const navigate = useNavigate();
   const { yearMonth } = useParams();
 
-  const { expenses, updateExpense, deleteExpense } = useExpense(
+  const { expenses, updateExpense, deleteExpense, createExpense } = useExpense(
     `${yearMonth}-01`,
   );
+
+  const handleAddExpense = () => {
+    const today = dayjs().format("YYYY-MM-DD");
+
+    const expenseForCreate: ExpenseForCreate = {
+      date: today,
+      category: "",
+      amount: 0,
+    };
+
+    createExpense(expenseForCreate);
+  };
 
   return (
     <div className="pane">
@@ -30,6 +43,7 @@ const DetailedExpense = () => {
           expenses={expenses}
           onUpdate={updateExpense}
           onDelete={deleteExpense}
+          onAdd={handleAddExpense}
         />
       </div>
     </div>

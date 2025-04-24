@@ -11,10 +11,12 @@ const ExpenseTable = ({
   expenses,
   onUpdate,
   onDelete,
+  onAdd,
 }: {
   expenses: Expense[];
   onUpdate: (expense: Expense) => Promise<void>;
   onDelete: (id: number) => Promise<Expense | undefined>;
+  onAdd: () => void;
 }) => {
   const columns: ColumnDef<Expense>[] = [
     {
@@ -89,6 +91,18 @@ const ExpenseTable = ({
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <td colSpan={table.getVisibleLeafColumns().length} className="pt-4">
+            <button
+              className="button" // Example style
+              onClick={onAdd}
+            >
+              Add Expense +
+            </button>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   );
 };
