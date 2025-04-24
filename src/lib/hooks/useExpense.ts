@@ -30,31 +30,31 @@ export const useExpense = (startDate: string) => {
   // TODO: implement this
   const [loading, setLoading] = useState("");
 
-  // useEffect(() => {
-  //   const endDate = getEndOfMonth(startDate);
-  //
-  //   const params: ListParams<ExpenseDateFilter> = {
-  //     data: {
-  //       startDate,
-  //       endDate,
-  //     },
-  //   };
-  //
-  //   const getExpenses = async () => {
-  //     try {
-  //       const result = await invokeIpc<Expense[]>(
-  //         "get_expenses_by_date",
-  //         params,
-  //       );
-  //
-  //       setExpenses(result);
-  //     } catch (e) {
-  //       setError(error);
-  //     }
-  //   };
-  //
-  //   getExpenses();
-  // }, [startDate]);
+  useEffect(() => {
+    const endDate = getEndOfMonth(startDate);
+
+    const params: ListParams<ExpenseDateFilter> = {
+      data: {
+        startDate,
+        endDate,
+      },
+    };
+
+    const getExpenses = async () => {
+      try {
+        const result = await invokeIpc<Expense[]>(
+          "get_expenses_by_date",
+          params,
+        );
+
+        setExpenses(result);
+      } catch (e) {
+        setError(error);
+      }
+    };
+
+    getExpenses();
+  }, [startDate]);
 
   const deleteExpense = async (id: number) => {
     const params: DeleteParams = {
@@ -63,6 +63,8 @@ export const useExpense = (startDate: string) => {
 
     try {
       const result = await invokeIpc<Expense>("delete_expense", params);
+      const newExpenses = expenses.filter((expense) => expense.id !== id);
+      setExpenses(newExpenses);
       return result;
     } catch (e: any) {
       setError(e);
@@ -71,7 +73,7 @@ export const useExpense = (startDate: string) => {
 
   const updateExpense = async (expenseToUpdate: Expense) => {
     try {
-      // what is happening here???
+      // TODO: Clean this up
       const _ = await invokeIpc<number>("update_expense", {
         ...expenseToUpdate,
       });

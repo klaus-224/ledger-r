@@ -36,7 +36,6 @@ const DetailedExpense = () => {
           <FaArrowLeft />
         </button>
         <h2>Expense Detail - {yearMonth}</h2>
-        <input id="date-input" type="date" className="date-picker" />
       </div>
       <div className="table-container">
         <ExpenseTable

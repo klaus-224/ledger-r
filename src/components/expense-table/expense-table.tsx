@@ -7,6 +7,7 @@ import {
 import { Expense } from "@lib/types/models";
 import { EditableCell } from "./editable-cell";
 
+// TODO: update styling of delete button and add expense button
 const ExpenseTable = ({
   expenses,
   onUpdate,
@@ -94,10 +95,7 @@ const ExpenseTable = ({
       <tfoot>
         <tr>
           <td colSpan={table.getVisibleLeafColumns().length} className="pt-4">
-            <button
-              className="button" // Example style
-              onClick={onAdd}
-            >
+            <button className="button" onClick={onAdd}>
               Add Expense +
             </button>
           </td>
