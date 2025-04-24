@@ -29,7 +29,27 @@ const ExpenseTable = ({
     {
       accessorKey: "amount",
       header: "Amount",
-      cell: (props) => <EditableCell onUpdate={onUpdate} {...props} />,
+      cell: (props) => (
+        <div className="inline-flex gap-1">
+          <span>$</span>
+          <EditableCell onUpdate={onUpdate} {...props} />
+        </div>
+      ),
+    },
+    {
+      id: "delete",
+      header: () => null,
+      cell: (props) => (
+        <button
+          className="button"
+          onClick={async () => {
+            console.log("Deleting row with id:", props.row.original.id);
+            await onDelete(props.row.original.id);
+          }}
+        >
+          Delete
+        </button>
+      ),
     },
   ];
 

@@ -12,10 +12,6 @@ const DetailedExpense = () => {
     `${yearMonth}-01`,
   );
 
-  const handleDelete = () => {
-    deleteExpense(1);
-  };
-
   return (
     <div className="pane">
       <div className="flex flex-row items-center justify-between mb-10">
@@ -32,7 +28,7 @@ const DetailedExpense = () => {
       <div className="table-container">
         <ExpenseTable
           expenses={expenses}
-          onCreate={updateExpense}
+          onUpdate={updateExpense}
           onDelete={deleteExpense}
         />
       </div>
