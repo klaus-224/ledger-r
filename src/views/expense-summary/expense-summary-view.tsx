@@ -21,7 +21,7 @@ const ExpenseSummary = () => {
           <SummaryCard
             key={monthSummary.month}
             month={dayjs(monthSummary.month).format("MMMM, YYYY").toString()}
-            totalExpenses={monthSummary.totalExpenses}
+            totalExpenses={monthSummary.expenses}
             onClick={() => navigate(`/expenses/${monthSummary.month}`)}
           />
         ))}
