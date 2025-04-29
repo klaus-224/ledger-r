@@ -22,13 +22,11 @@ export const aprilExpenses: Expense[] = [
   { id: 110, date: "2025-04-30", category: "Misc", amount: 20.0 },
 ];
 
+// TODO: implement this
 export const useExpense = (startDate: string) => {
   // state for expenses (note: this will be a per-view data storage, i.e. when I switch views, the data in these states will disappear)
-  const [expenses, setExpenses] = useState<Expense[]>(aprilExpenses);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [error, setError] = useState("");
-
-  // TODO: implement this
-  const [loading, setLoading] = useState("");
 
   useEffect(() => {
     const endDate = getEndOfMonth(startDate);
@@ -73,13 +71,12 @@ export const useExpense = (startDate: string) => {
 
   const updateExpense = async (expenseToUpdate: Expense) => {
     try {
-      // TODO: Clean this up
-      const _ = await invokeIpc<number>("update_expense", {
+      const updatedExpenseId = await invokeIpc<number>("update_expense", {
         ...expenseToUpdate,
       });
 
       const updatedExpenses = expenses.map((expense) => {
-        if (expense.id === expenseToUpdate.id) {
+        if (updatedExpenseId === expenseToUpdate.id) {
           return expenseToUpdate;
         }
 

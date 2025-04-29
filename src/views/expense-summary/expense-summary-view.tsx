@@ -1,12 +1,12 @@
 import SummaryCard from "@components/summary-card";
+import { useExpenseSummary } from "@lib/hooks/useExpenseSummary";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router";
 
 const ExpenseSummary = () => {
-  const array = new Array(4).fill(1);
   const navigate = useNavigate();
-  // TODO:
-  // need to get distinct year/month
-  // need to get aggregation of expenses in the mont
+
+  const { summary } = useExpenseSummary();
 
   return (
     <div className="pane">
@@ -17,8 +17,13 @@ const ExpenseSummary = () => {
         </button>
       </div>
       <div className="flex flex-row flex-wrap justify-between gap-y-5">
-        {array.map(() => (
-          <SummaryCard onClick={() => navigate("/expenses/2025-04")} />
+        {summary.map((monthSummary) => (
+          <SummaryCard
+            key={monthSummary.month}
+            month={dayjs(monthSummary.month).format("MMMM, YYYY").toString()}
+            totalExpenses={monthSummary.totalExpenses}
+            onClick={() => navigate(`/expenses/${monthSummary.month}`)}
+          />
         ))}
       </div>
     </div>

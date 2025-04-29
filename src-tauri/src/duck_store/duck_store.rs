@@ -213,11 +213,11 @@ mod tests {
             .expect("Failed to get monthly expense summary");
         assert_eq!(month_summary_list.len(), 3);
         assert_eq!(month_summary_list[0].month, "2025-03");
-        assert_eq!(month_summary_list[0].total_expenses, 4052);
+        assert_eq!(month_summary_list[0].expenses, 4052);
         assert_eq!(month_summary_list[1].month, "2025-04");
-        assert_eq!(month_summary_list[1].total_expenses, 3762);
+        assert_eq!(month_summary_list[1].expenses, 3762);
         assert_eq!(month_summary_list[2].month, "2025-05");
-        assert_eq!(month_summary_list[2].total_expenses, 3544);
+        assert_eq!(month_summary_list[2].expenses, 3544);
     }
 }
 // endregion:   --- TESTS
