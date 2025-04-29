@@ -2,7 +2,9 @@ use tauri::{command, State};
 
 use crate::{
     duck_store::DuckStore,
-    models::expenses::{Expense, ExpenseController, ExpenseDateFilter, ExpenseForCreate},
+    models::expenses::{
+        Expense, ExpenseController, ExpenseDateFilter, ExpenseForCreate, MonthSummary,
+    },
 };
 
 use super::{
@@ -17,6 +19,11 @@ pub fn get_expenses_by_date(
 ) -> IpcResponse<Vec<Expense>> {
     let params = params.data;
     ExpenseController::get_by_date(store_state.inner(), params).into()
+}
+
+#[command(rename_all = "camelCase")]
+pub fn get_expense_summary(store_state: State<DuckStore>) -> IpcResponse<Vec<MonthSummary>> {
+    ExpenseController::get_expense_summary(store_state.inner()).into()
 }
 
 #[command(rename_all = "camelCase")]

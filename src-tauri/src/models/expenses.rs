@@ -100,6 +100,31 @@ impl Createable for ExpenseForCreate {
 }
 // endregion:   --- ExpenseForCreate
 
+// startregion: --- MonthSummary
+
+#[derive(Serialize, TS)]
+#[ts(
+    export,
+    export_to = "../../src/lib/types/models.ts",
+    rename_all = "camelCase"
+)]
+pub struct MonthSummary {
+    pub month: String,
+    pub total_expenses: i32,
+}
+
+impl Entity for MonthSummary {
+    fn from_row(row: &duckdb::Row) -> std::result::Result<Self, duckdb::Error> {
+        let month_summary = MonthSummary {
+            month: row.get(0)?,
+            total_expenses: row.get(1)?,
+        };
+
+        Ok(month_summary)
+    }
+}
+// endregion:   --- MonthSummar
+
 // startregion: --- ExpenseController
 pub struct ExpenseController();
 
@@ -110,6 +135,11 @@ impl ExpenseController {
 
     pub fn get_by_date(store: &DuckStore, params: ExpenseDateFilter) -> Result<Vec<Expense>> {
         store.execute_select(params)
+    }
+
+    pub fn get_expense_summary(store: &DuckStore) -> Result<Vec<MonthSummary>> {
+        let sql = "SELECT strftime('%Y-%m', date) AS month, SUM(amount) AS total_expenses FROM expenses GROUP BY month ORDER BY month;";
+        store.execute_select_no_filter(sql)
     }
 
     pub fn update(store: &DuckStore, params: Expense) -> Result<i32> {

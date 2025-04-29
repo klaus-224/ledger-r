@@ -47,6 +47,7 @@ impl DuckStore {
         Ok(entity)
     }
 
+    // TODO: I don't like this => we are just passing SQL here
     pub fn execute_select<F, E>(&self, filter: F) -> Result<Vec<E>>
     where
         F: Filterable,
@@ -61,6 +62,19 @@ impl DuckStore {
 
         let entity_list = stmt.query_map(params_from_iter(expr.iter()), |row| E::from_row(row))?;
 
+        entity_list.map(|res| res.map_err(Error::from)).collect()
+    }
+
+    // TODO: I don't like this => we are just passing SQL here
+    pub fn execute_select_no_filter<E>(&self, sql: &str) -> Result<Vec<E>>
+    where
+        E: Entity,
+    {
+        let conn = self.connection.lock()?;
+        // TODO: This error is unrecoverable, I should implement some messaging to the FE and
+        // then close the connection gracefully rather than letting it hang
+        let mut stmt = conn.prepare(sql)?;
+        let entity_list = stmt.query_map([], |row| E::from_row(row))?;
         entity_list.map(|res| res.map_err(Error::from)).collect()
     }
 
@@ -109,7 +123,7 @@ mod tests {
     use super::*;
     use crate::{
         duck_store::db_seed,
-        models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate},
+        models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate, MonthSummary},
     };
 
     async fn setup_test_db() -> DuckStore {
@@ -188,6 +202,22 @@ mod tests {
         let id = db.execute_update("expenses", expense_for_update).unwrap();
 
         assert_eq!(id, 2);
+    }
+
+    #[tokio::test]
+    async fn test_get_summary_expense() {
+        let db = setup_test_db().await;
+        let sql = "SELECT strftime('%Y-%m', strptime(date, '%Y-%m-%d')) AS month, SUM(amount) AS total_expenses FROM expenses GROUP BY month ORDER BY month;";
+        let month_summary_list: Vec<MonthSummary> = db
+            .execute_select_no_filter(sql)
+            .expect("Failed to get monthly expense summary");
+        assert_eq!(month_summary_list.len(), 3);
+        assert_eq!(month_summary_list[0].month, "2025-03");
+        assert_eq!(month_summary_list[0].total_expenses, 4052);
+        assert_eq!(month_summary_list[1].month, "2025-04");
+        assert_eq!(month_summary_list[1].total_expenses, 3762);
+        assert_eq!(month_summary_list[2].month, "2025-05");
+        assert_eq!(month_summary_list[2].total_expenses, 3544);
     }
 }
 // endregion:   --- TESTS

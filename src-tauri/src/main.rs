@@ -26,6 +26,7 @@ fn main() -> Result<()> {
         })
         .invoke_handler(tauri::generate_handler![
             get_expenses_by_date,
+            get_expense_summary,
             create_expense,
             update_expense,
             delete_expense,
