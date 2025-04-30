@@ -35,7 +35,9 @@ const DetailedExpense = () => {
         >
           <FaArrowLeft />
         </button>
-        <h2>Expense Detail - {yearMonth}</h2>
+        <h2 className="view-header">
+          {dayjs(yearMonth).format("MMMM, YYYY").toString()}
+        </h2>
       </div>
       <div className="table-container">
         <ExpenseTable

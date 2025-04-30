@@ -11,7 +11,7 @@ const ExpenseSummary = () => {
   return (
     <div className="pane">
       <div className="flex flex-row justify-between items-center mb-10">
-        <h2>Expenses</h2>
+        <h2 className="view-header">Expenses</h2>
         <button className="button" onClick={() => navigate("/expenses/new")}>
           + New Expense
         </button>

@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       >
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 absolute rounded-sm hover:cursor-pointer"
+          className="p-2 absolute rounded-sm hover:cursor-pointer text-foreground"
         >
           <FiSidebar />
         </button>
