@@ -22,7 +22,7 @@ export const aprilExpenses: Expense[] = [
   { id: 110, date: "2025-04-30", category: "Misc", amount: 20.0 },
 ];
 
-// TODO: implement this
+// TODO: implement better error
 export const useExpense = (startDate: string) => {
   // state for expenses (note: this will be a per-view data storage, i.e. when I switch views, the data in these states will disappear)
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -47,6 +47,7 @@ export const useExpense = (startDate: string) => {
 
         setExpenses(result);
       } catch (e) {
+        console.log(e);
         setError(error);
       }
     };
@@ -65,6 +66,7 @@ export const useExpense = (startDate: string) => {
       setExpenses(newExpenses);
       return result;
     } catch (e: any) {
+      console.log(e);
       setError(e);
     }
   };
@@ -76,7 +78,7 @@ export const useExpense = (startDate: string) => {
       });
 
       const updatedExpenses = expenses.map((expense) => {
-        if (updatedExpenseId === expenseToUpdate.id) {
+        if (updatedExpenseId === expense.id) {
           return expenseToUpdate;
         }
 
@@ -85,6 +87,7 @@ export const useExpense = (startDate: string) => {
 
       setExpenses(updatedExpenses);
     } catch (e: any) {
+      console.log(e);
       setError(e);
     }
   };

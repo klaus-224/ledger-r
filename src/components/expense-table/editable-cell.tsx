@@ -21,14 +21,16 @@ export const EditableCell = ({
   };
 
   const onBlur = async () => {
-    const finalValue = column.id === "amount" ? parseFloat(value) : value;
+    if (value !== initialValue) {
+      const finalValue = column.id === "amount" ? parseFloat(value) : value;
 
-    const updatedExpense: Expense = {
-      ...row.original,
-      [column.id]: finalValue,
-    };
+      const updatedExpense: Expense = {
+        ...row.original,
+        [column.id]: finalValue,
+      };
 
-    await onUpdate(updatedExpense);
+      await onUpdate(updatedExpense);
+    }
   };
 
   useEffect(() => {

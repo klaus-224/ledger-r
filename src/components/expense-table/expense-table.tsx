@@ -46,7 +46,6 @@ const ExpenseTable = ({
         <button
           className="button"
           onClick={async () => {
-            console.log("Deleting row with id:", props.row.original.id);
             await onDelete(props.row.original.id);
           }}
         >
