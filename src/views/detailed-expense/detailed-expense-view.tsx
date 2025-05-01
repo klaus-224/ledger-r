@@ -39,13 +39,17 @@ const DetailedExpense = () => {
           {dayjs(yearMonth).format("MMMM, YYYY").toString()}
         </h2>
       </div>
-      <div className="table-container">
+      <div>
         <ExpenseTable
           expenses={expenses}
           onUpdate={updateExpense}
           onDelete={deleteExpense}
-          onAdd={handleAddExpense}
         />
+        <div className="mt-5 w-full flex justify-end">
+          <button className="button" onClick={handleAddExpense}>
+            Add Expense +
+          </button>
+        </div>
       </div>
     </div>
   );

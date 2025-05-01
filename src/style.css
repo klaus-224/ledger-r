@@ -70,6 +70,10 @@
 
 /* CUSTOM GLOBAL COMPONENTS */
 @layer components {
+  body {
+    @apply bg-background;
+  }
+
   /** LAYOUT **/
   .main-content-section {
     @apply min-h-screen px-7 py-5 bg-background transition-all duration-300 ease-in-out;
@@ -84,7 +88,7 @@
   }
 
   .pane {
-    @apply flex flex-col h-full;
+    @apply flex flex-col flex-grow h-full;
   }
 
   /** END LAYOUTS **/
@@ -122,7 +126,7 @@
   }
 
   .table-container {
-    @apply w-full relative mt-10 mb-auto shadow-md;
+    @apply w-full relative mt-10 bg-card rounded-lg border border-border;
   }
 
   .view-header {
@@ -130,7 +134,7 @@
   }
 
   table {
-    @apply w-full table-fixed text-left text-foreground bg-card border-collapse;
+    @apply w-full table-fixed text-left text-foreground;
   }
 
   thead {
@@ -143,10 +147,6 @@
 
   tbody tr:not(:last-child) td {
     @apply border-b border-border;
-  }
-
-  tbody tr:last-child td {
-    @apply border-b-0;
   }
 
   th {
