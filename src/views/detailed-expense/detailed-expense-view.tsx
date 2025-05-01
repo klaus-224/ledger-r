@@ -27,7 +27,7 @@ const DetailedExpense = () => {
 
   return (
     <div className="pane">
-      <div className="flex flex-row items-center justify-between mb-10">
+      <div className="flex flex-row items-center">
         <button
           className="icon-button"
           type="button"
@@ -35,7 +35,7 @@ const DetailedExpense = () => {
         >
           <FaArrowLeft />
         </button>
-        <h2 className="view-header">
+        <h2 className="view-header ml-5">
           {dayjs(yearMonth).format("MMMM, YYYY").toString()}
         </h2>
       </div>

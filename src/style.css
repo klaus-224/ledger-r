@@ -88,7 +88,7 @@
   }
 
   .pane {
-    @apply flex flex-col flex-grow h-full;
+    @apply flex flex-col flex-grow h-full pt-10;
   }
 
   /** END LAYOUTS **/
@@ -130,7 +130,7 @@
   }
 
   .view-header {
-    @apply text-2xl font-bold text-foreground;
+    @apply text-xl text-foreground;
   }
 
   table {
