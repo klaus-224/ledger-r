@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-table";
 import { Expense } from "@lib/types/models";
 import { EditableCell } from "./editable-cell";
+import { TiDelete } from "react-icons/ti";
 
 // TODO: update styling of delete button and add expense button
 const ExpenseTable = ({
@@ -41,14 +42,13 @@ const ExpenseTable = ({
       id: "delete",
       header: () => null,
       cell: (props) => (
-        <button
-          className="button"
+        <div
           onClick={async () => {
             await onDelete(props.row.original.id);
           }}
         >
-          Delete
-        </button>
+          <TiDelete className="text-foreground size-5.5 hover:cursor-pointer" />
+        </div>
       ),
     },
   ];
@@ -67,7 +67,12 @@ const ExpenseTable = ({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <th
+                  key={header.id}
+                  style={{
+                    width: header.index === 3 ? 80 : "auto",
+                  }}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(

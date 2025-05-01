@@ -126,7 +126,7 @@
   }
 
   .table-container {
-    @apply w-full relative mt-10 bg-card rounded-lg border border-border;
+    @apply w-full relative mt-10 ml-auto mr-auto bg-card rounded-lg border border-border;
   }
 
   .view-header {

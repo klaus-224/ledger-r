@@ -39,7 +39,7 @@ const DetailedExpense = () => {
           {dayjs(yearMonth).format("MMMM, YYYY").toString()}
         </h2>
       </div>
-      <div>
+      <div className="xl:w-4/6 ml-auto mr-auto">
         <ExpenseTable
           expenses={expenses}
           onUpdate={updateExpense}
