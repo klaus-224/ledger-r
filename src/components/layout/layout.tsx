@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <div data-slot="window-wrapper" className="flex flex-row">
       <div
         data-slot="side-bar-wrapper"
-        className={`sidebar-section ${sidebarOpen ? "w-1/4" : "w-0"}`}
+        className={`sidebar-section ${sidebarOpen ? "w-1/4 xl:w-1/5" : "w-0"}`}
       >
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       </div>
       <div
         data-slot="content-wrapper"
-        className={`main-content-section ${sidebarOpen ? "w-3/4" : "w-full"}`}
+        className={`main-content-section ${sidebarOpen ? "w-3/4 xl:w-4/5" : "w-full"}`}
       >
         {children}
       </div>

@@ -32,7 +32,7 @@ const ExpenseTable = ({
       accessorKey: "amount",
       header: "Amount",
       cell: (props) => (
-        <div className="inline-flex gap-1">
+        <div className="inline-flex gap-1 items-center">
           <span>$</span>
           <EditableCell onUpdate={onUpdate} {...props} />
         </div>
@@ -69,9 +69,7 @@ const ExpenseTable = ({
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  style={{
-                    width: header.index === 3 ? 80 : "auto",
-                  }}
+                  className={`${header.index === 3 ? "w-10" : "auto"}`}
                 >
                   {header.isPlaceholder
                     ? null
