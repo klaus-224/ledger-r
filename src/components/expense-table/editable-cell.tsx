@@ -43,7 +43,7 @@ export const EditableCell = ({
       value={value}
       onChange={onChange}
       onBlur={onBlur}
-      className="w-full px-4 py-4 focus:outline-none focus:ring-2 focus:ring-primary"
+      className="py-2 pl-1 focus:outline-none focus:ring-1 focus:ring-primary focus:rounded"
     />
   );
 };

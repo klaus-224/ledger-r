@@ -8,7 +8,6 @@ import { Expense } from "@lib/types/models";
 import { EditableCell } from "./editable-cell";
 import { TiDelete } from "react-icons/ti";
 
-// TODO: update styling of delete button and add expense button
 const ExpenseTable = ({
   expenses,
   onUpdate,
@@ -32,7 +31,7 @@ const ExpenseTable = ({
       accessorKey: "amount",
       header: "Amount",
       cell: (props) => (
-        <div className="inline-flex gap-1 items-center">
+        <div className="inline-flex gap-4 items-center">
           <span>$</span>
           <EditableCell onUpdate={onUpdate} {...props} />
         </div>
@@ -69,7 +68,7 @@ const ExpenseTable = ({
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className={`${header.index === 3 ? "w-10" : "auto"}`}
+                  className={`${header.index === 3 ? "w-10" : "auto"} py-3`}
                 >
                   {header.isPlaceholder
                     ? null
