@@ -12,9 +12,7 @@ const ExpenseSummary = () => {
 
   return (
     <SectionWrapper title="Expenses">
-      <Button className="mt-5" onClick={() => navigate("/expenses/new")}>
-        + New Expense
-      </Button>
+      <Button onClick={() => navigate("/expenses/new")}>+ New Expense</Button>
       <div className="flex flex-row flex-wrap gap-5 mt-5">
         {summary.map((monthSummary) => (
           <SummaryCard

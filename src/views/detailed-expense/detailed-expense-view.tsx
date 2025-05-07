@@ -3,6 +3,9 @@ import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
 import dayjs from "dayjs";
 import { ExpenseForCreate } from "@lib/types/models";
+import { SectionWrapper } from "@components/ui/section-wrapper";
+import { formatDate } from "@lib/utils/utils";
+import { CircleArrowLeft } from "lucide-react";
 
 const DetailedExpense = () => {
   const navigate = useNavigate();
@@ -25,17 +28,12 @@ const DetailedExpense = () => {
   };
 
   return (
-    <div className="pane">
-      <div className="flex flex-row items-center">
-        <button
-          className="icon-button"
-          type="button"
-          onClick={() => navigate("/expenses")}
-        ></button>
-        <h2 className="view-header ml-5">
-          {dayjs(yearMonth).format("MMMM, YYYY").toString()}
-        </h2>
-      </div>
+    <SectionWrapper title={formatDate(yearMonth!)}>
+      <CircleArrowLeft
+        className="cusor-pointer"
+        size={24}
+        onClick={() => navigate("/expenses")}
+      />
       <div className="xl:w-4/6 ml-auto mr-auto">
         <ExpenseTable
           expenses={expenses}
@@ -48,7 +46,7 @@ const DetailedExpense = () => {
           </button>
         </div>
       </div>
-    </div>
+    </SectionWrapper>
   );
 };
 

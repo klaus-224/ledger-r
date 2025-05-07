@@ -37,3 +37,7 @@ export async function invokeIpc<T>(command: string, params?: any): Promise<T> {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function formatDate(date: string, format = "MMMM, YYYY") {
+  return dayjs(date).format(format);
+}

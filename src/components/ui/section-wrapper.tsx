@@ -9,7 +9,7 @@ export const SectionWrapper = ({
 }) => {
   return (
     <div className="px-3 py-2">
-      <header className="flex items-center gap-2">
+      <header className="flex items-center gap-2 mb-5">
         <SidebarTrigger />
         <span className="font-medium text-xl">{title}</span>
       </header>
