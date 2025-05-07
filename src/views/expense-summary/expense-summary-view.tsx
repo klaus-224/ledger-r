@@ -1,4 +1,5 @@
 import SummaryCard from "@components/summary-card";
+import { Button } from "@components/ui/button";
 import { SectionWrapper } from "@components/ui/section-wrapper";
 import { useExpenseSummary } from "@lib/hooks/useExpenseSummary";
 import dayjs from "dayjs";
@@ -11,12 +12,10 @@ const ExpenseSummary = () => {
 
   return (
     <SectionWrapper title="Expenses">
-      <div className="flex flex-row justify-between items-center mb-10">
-        <button className="button" onClick={() => navigate("/expenses/new")}>
-          + New Expense
-        </button>
-      </div>
-      <div className="flex flex-row flex-wrap justify-between gap-y-5">
+      <Button className="mt-5" onClick={() => navigate("/expenses/new")}>
+        + New Expense
+      </Button>
+      <div className="flex flex-row flex-wrap gap-5 mt-5">
         {summary.map((monthSummary) => (
           <SummaryCard
             key={monthSummary.month}
