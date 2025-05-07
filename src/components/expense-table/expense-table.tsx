@@ -6,6 +6,15 @@ import {
 } from "@tanstack/react-table";
 import { Expense } from "@lib/types/models";
 import { EditableCell } from "./editable-cell";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@components/ui/table";
+import { X } from "lucide-react";
 
 const ExpenseTable = ({
   expenses,
@@ -44,7 +53,9 @@ const ExpenseTable = ({
           onClick={async () => {
             await onDelete(props.row.original.id);
           }}
-        ></div>
+        >
+          <X />
+        </div>
       ),
     },
   ];
@@ -57,39 +68,36 @@ const ExpenseTable = ({
   });
 
   return (
-    <div className="table-container">
-      <table>
-        <thead>
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={`${header.index === 3 ? "w-10" : "auto"} py-3`}
-                >
+                <TableHead key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext(),
                       )}
-                </th>
+                </TableHead>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </thead>
-        <tbody>
+        </TableHeader>
+        <TableBody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };
