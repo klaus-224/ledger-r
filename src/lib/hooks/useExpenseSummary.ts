@@ -1,5 +1,5 @@
 import { MonthSummary } from "@lib/types/models";
-import { invokeIpc } from "@lib/utils/invoke-ipc";
+import { invokeIpc } from "@lib/utils/utils";
 import { useEffect, useState } from "react";
 
 // TODO: add loading and Error States

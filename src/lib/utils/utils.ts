@@ -1,4 +1,14 @@
+import dayjs from "dayjs";
 import { invoke } from "@tauri-apps/api/core";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export const getEndOfMonth = (startDate: string) => {
+  const start = dayjs(startDate);
+  const end = start.endOf("month");
+
+  return end.format("YYYY-MM-DD");
+};
 
 // TODO: not great usage of TS, improve in the future
 export async function invokeIpc<T>(command: string, params?: any): Promise<T> {
@@ -22,4 +32,8 @@ export async function invokeIpc<T>(command: string, params?: any): Promise<T> {
     console.log("Critical Error:", JSON.stringify(e));
     throw new Error(`Unknown error in command ${command}`);
   }
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }

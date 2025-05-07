@@ -6,8 +6,8 @@ import {
   DeleteParams,
 } from "@lib/types/models";
 import { useEffect, useState } from "react";
-import { getEndOfMonth } from "@lib/utils/date";
-import { invokeIpc } from "@lib/utils/invoke-ipc";
+import { getEndOfMonth } from "@lib/utils/utils";
+import { invokeIpc } from "@lib/utils/utils";
 
 export const aprilExpenses: Expense[] = [
   { id: 101, date: "2025-04-01", category: "Groceries", amount: 75.2 },

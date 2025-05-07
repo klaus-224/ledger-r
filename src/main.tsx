@@ -4,6 +4,6 @@ import { BrowserRouter } from "react-router";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
-    <App />,
+    <App />
   </BrowserRouter>,
 );

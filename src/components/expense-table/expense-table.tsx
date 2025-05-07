@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-table";
 import { Expense } from "@lib/types/models";
 import { EditableCell } from "./editable-cell";
-import { TiDelete } from "react-icons/ti";
 
 const ExpenseTable = ({
   expenses,
@@ -45,9 +44,7 @@ const ExpenseTable = ({
           onClick={async () => {
             await onDelete(props.row.original.id);
           }}
-        >
-          <TiDelete className="text-foreground size-5.5 hover:cursor-pointer" />
-        </div>
+        ></div>
       ),
     },
   ];

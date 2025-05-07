@@ -1,31 +1,15 @@
-import { ReactNode, useState } from "react";
 import SidebarNav from "@components/sidebar";
-import { FiSidebar } from "react-icons/fi";
+import { SidebarProvider } from "@components/ui/sidebar";
+import { Outlet } from "react-router";
 
-const Layout = ({ children }: { children: ReactNode }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
+const Layout = () => {
   return (
-    <div data-slot="window-wrapper" className="flex flex-row">
-      <div
-        data-slot="side-bar-wrapper"
-        className={`sidebar-section ${sidebarOpen ? "w-1/4 xl:w-1/5" : "w-0"}`}
-      >
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 absolute rounded-sm hover:cursor-pointer text-foreground"
-        >
-          <FiSidebar />
-        </button>
-        <SidebarNav />
-      </div>
-      <div
-        data-slot="content-wrapper"
-        className={`main-content-section ${sidebarOpen ? "w-3/4 xl:w-4/5" : "w-full"}`}
-      >
-        {children}
-      </div>
-    </div>
+    <SidebarProvider>
+      <SidebarNav />
+      <main className="relative flex w-full flex-1 flex-col md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow duration-100 ease-linear px-3 py-1">
+        <Outlet />
+      </main>
+    </SidebarProvider>
   );
 };
 

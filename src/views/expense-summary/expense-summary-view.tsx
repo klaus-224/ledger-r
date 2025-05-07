@@ -1,4 +1,5 @@
 import SummaryCard from "@components/summary-card";
+import { SectionWrapper } from "@components/ui/section-wrapper";
 import { useExpenseSummary } from "@lib/hooks/useExpenseSummary";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
@@ -9,9 +10,8 @@ const ExpenseSummary = () => {
   const { summary } = useExpenseSummary();
 
   return (
-    <div className="pane">
+    <SectionWrapper title="Expenses">
       <div className="flex flex-row justify-between items-center mb-10">
-        <h2 className="view-header">Expenses</h2>
         <button className="button" onClick={() => navigate("/expenses/new")}>
           + New Expense
         </button>
@@ -26,7 +26,7 @@ const ExpenseSummary = () => {
           />
         ))}
       </div>
-    </div>
+    </SectionWrapper>
   );
 };
 

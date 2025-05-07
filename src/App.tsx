@@ -8,15 +8,15 @@ import NewExpense from "@views/new-expense";
 
 const App = () => {
   return (
-    <Layout>
-      <Routes>
+    <Routes>
+      <Route path="/" element={<Layout />}>
         <Route path="networth" element={<NetoworthView />} />
         <Route path="income" element={<IncomeView />} />
         <Route path="expenses" element={<ExpenseSummary />} />
         <Route path="expenses/new" element={<NewExpense />} />
         <Route path="expenses/:yearMonth" element={<DetailedExpense />} />
-      </Routes>
-    </Layout>
+      </Route>
+    </Routes>
   );
 };
 

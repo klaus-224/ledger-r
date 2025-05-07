@@ -1,4 +1,3 @@
-import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
@@ -32,9 +31,7 @@ const DetailedExpense = () => {
           className="icon-button"
           type="button"
           onClick={() => navigate("/expenses")}
-        >
-          <FaArrowLeft />
-        </button>
+        ></button>
         <h2 className="view-header ml-5">
           {dayjs(yearMonth).format("MMMM, YYYY").toString()}
         </h2>
