@@ -15,13 +15,16 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { X } from "lucide-react";
+import DateCell from "./date-cell";
 
 const ExpenseTable = ({
   expenses,
   onUpdate,
   onDelete,
+  yearMonth,
 }: {
   expenses: Expense[];
+  yearMonth: Date;
   onUpdate: (expense: Expense) => Promise<void>;
   onDelete: (id: number) => Promise<Expense | undefined>;
 }) => {
@@ -29,6 +32,9 @@ const ExpenseTable = ({
     {
       accessorKey: "date",
       header: "Date",
+      cell: (props) => (
+        <DateCell currentMonthYear={yearMonth} onUpdate={onUpdate} {...props} />
+      ),
     },
     {
       accessorKey: "category",

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
 import dayjs from "dayjs";
@@ -6,6 +6,7 @@ import { ExpenseForCreate } from "@lib/types/models";
 import { SectionWrapper } from "@components/ui/section-wrapper";
 import { formatDate } from "@lib/utils/utils";
 import { Button } from "@components/ui/button";
+import { format, parseISO } from "date-fns";
 
 const DetailedExpense = () => {
   const { yearMonth } = useParams();
@@ -27,9 +28,13 @@ const DetailedExpense = () => {
   };
 
   return (
-    <SectionWrapper title={formatDate(yearMonth!)} navigateTo="/expenses">
+    <SectionWrapper
+      title={format(parseISO(yearMonth!), "MMMM, yyyy")}
+      navigateTo="/expenses"
+    >
       <div className="xl:w-4/6 ml-auto mr-auto">
         <ExpenseTable
+          yearMonth={parseISO(yearMonth!)}
           expenses={expenses}
           onUpdate={updateExpense}
           onDelete={deleteExpense}
