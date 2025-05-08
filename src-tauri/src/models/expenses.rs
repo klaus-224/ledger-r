@@ -15,7 +15,7 @@ pub struct Expense {
     pub id: i32,
     pub date: String,
     pub category: String,
-    pub amount: i32,
+    pub amount: f32,
 }
 
 impl Entity for Expense {
@@ -82,7 +82,7 @@ impl Filterable for ExpenseDateFilter {
 pub struct ExpenseForCreate {
     pub date: String,
     pub category: String,
-    pub amount: i32,
+    pub amount: f32,
 }
 
 impl Createable for ExpenseForCreate {
