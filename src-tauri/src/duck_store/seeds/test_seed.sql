@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS expenses (
 	id INTEGER PRIMARY KEY DEFAULT nextval('seq_expense_id'),
 	date TEXT,
 	category TEXT,
-	amount INTEGER
+	amount FLOAT
 );
 
 INSERT INTO expenses (date, category, amount) VALUES ('2025-03-01', 'Food', '366');

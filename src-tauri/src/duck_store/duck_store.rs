@@ -159,7 +159,7 @@ mod tests {
         assert_eq!(expenses.len(), 7);
         assert_eq!(expenses[0].date, "2025-04-02");
         assert_eq!(expenses[0].category, "Travel");
-        assert_eq!(expenses[0].amount, 625);
+        assert_eq!(expenses[0].amount, 625.0);
     }
 
     #[tokio::test]
@@ -169,14 +169,14 @@ mod tests {
         let expense_for_create = ExpenseForCreate {
             date: "2025-04-07".to_string(),
             category: "Games".to_string(),
-            amount: 35,
+            amount: 35.0,
         };
 
         let expense: Expense = db.execute_create("expenses", expense_for_create).unwrap();
 
         assert_eq!(expense.date, "2025-04-07");
         assert_eq!(expense.category, "Games");
-        assert_eq!(expense.amount, 35);
+        assert_eq!(expense.amount, 35.0);
     }
 
     #[tokio::test]
@@ -196,7 +196,7 @@ mod tests {
             id: 2,
             date: "2025-03-05".to_string(),
             category: "Transport".to_string(),
-            amount: 900,
+            amount: 900.0,
         };
 
         let id = db.execute_update("expenses", expense_for_update).unwrap();
