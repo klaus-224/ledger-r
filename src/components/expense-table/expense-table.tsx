@@ -59,6 +59,7 @@ const ExpenseTable = ({
           onClick={async () => {
             await onDelete(props.row.original.id);
           }}
+          className="cursor-pointer"
         >
           <X />
         </div>

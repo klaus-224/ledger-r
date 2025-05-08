@@ -6,7 +6,6 @@ interface EditableCellProps extends CellContext<Expense, unknown> {
   onUpdate: (updatedExpense: Expense) => Promise<void>;
 }
 
-// TODO: Update styling
 export const EditableCell = ({
   getValue,
   row,

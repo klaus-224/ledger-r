@@ -1,13 +1,10 @@
-import dayjs from "dayjs";
 import { invoke } from "@tauri-apps/api/core";
 import { clsx, type ClassValue } from "clsx";
+import { endOfMonth, parseISO } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export const getEndOfMonth = (startDate: string) => {
-  const start = dayjs(startDate);
-  const end = start.endOf("month");
-
-  return end.format("YYYY-MM-DD");
+  return endOfMonth(parseISO(startDate));
 };
 
 // TODO: not great usage of TS, improve in the future
@@ -36,8 +33,4 @@ export async function invokeIpc<T>(command: string, params?: any): Promise<T> {
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-export function formatDate(date: string, format = "MMMM, YYYY") {
-  return dayjs(date).format(format);
 }

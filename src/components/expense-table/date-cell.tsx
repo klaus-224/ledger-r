@@ -1,4 +1,3 @@
-import { Button } from "@components/ui/button";
 import { Calendar } from "@components/ui/calendar";
 import {
   Popover,
@@ -8,13 +7,7 @@ import {
 import { Expense } from "@lib/types/models";
 import { cn } from "@lib/utils/utils";
 import { CellContext } from "@tanstack/react-table";
-import {
-  endOfMonth,
-  format,
-  formatDate,
-  parseISO,
-  startOfMonth,
-} from "date-fns";
+import { endOfMonth, format, parseISO, startOfMonth } from "date-fns";
 import { useState } from "react";
 
 interface DateCellProps extends CellContext<Expense, unknown> {
@@ -29,23 +22,25 @@ const DateCell = ({
   onUpdate,
 }: DateCellProps) => {
   const initialDate = parseISO(getValue() as string);
+
+  const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(initialDate);
 
   const startDateRange = startOfMonth(currentMonthYear);
   const endDateRange = endOfMonth(currentMonthYear);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant={"ghost"}
+        <input
+          type="text"
+          value={format(date!, "yyyy-MM-dd")}
           className={cn(
-            "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            "py-1.5 pl-1 focus:outline-none rounded cursor-text",
+            `${open && "ring-1 ring-primary"}`,
           )}
-        >
-          {date && formatDate(date, "yyyy-MM-dd")}
-        </Button>
+          readOnly
+        />
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar

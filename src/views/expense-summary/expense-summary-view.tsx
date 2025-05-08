@@ -2,7 +2,7 @@ import SummaryCard from "@components/summary-card";
 import { Button } from "@components/ui/button";
 import { SectionWrapper } from "@components/ui/section-wrapper";
 import { useExpenseSummary } from "@lib/hooks/useExpenseSummary";
-import dayjs from "dayjs";
+import { format, parseISO } from "date-fns";
 import { useNavigate } from "react-router";
 
 const ExpenseSummary = () => {
@@ -17,7 +17,7 @@ const ExpenseSummary = () => {
         {summary.map((monthSummary) => (
           <SummaryCard
             key={monthSummary.month}
-            month={dayjs(monthSummary.month).format("MMMM, YYYY").toString()}
+            month={format(parseISO(monthSummary.month), "MMMM, yyyy")}
             totalExpenses={monthSummary.expenses}
             onClick={() => navigate(`/expenses/${monthSummary.month}`)}
           />

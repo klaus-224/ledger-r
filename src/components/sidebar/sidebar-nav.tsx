@@ -40,7 +40,10 @@ const SidebarNav = () => {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton>
-                    <NavLink to={item.url} className="flex flex-row gap-2">
+                    <NavLink
+                      to={item.url}
+                      className="flex flex-row gap-2 items-center"
+                    >
                       <item.icon />
                       <span>{item.title}</span>
                     </NavLink>

@@ -1,10 +1,8 @@
 import { useParams } from "react-router";
 import ExpenseTable from "@components/expense-table";
 import { useExpense } from "@lib/hooks/useExpense";
-import dayjs from "dayjs";
 import { ExpenseForCreate } from "@lib/types/models";
 import { SectionWrapper } from "@components/ui/section-wrapper";
-import { formatDate } from "@lib/utils/utils";
 import { Button } from "@components/ui/button";
 import { format, parseISO } from "date-fns";
 
@@ -16,7 +14,7 @@ const DetailedExpense = () => {
   );
 
   const handleAddExpense = () => {
-    const today = formatDate(dayjs().toString(), "YYYY-MM-DD");
+    const today = format(new Date(), "YYYY-MM-DD");
 
     const expenseForCreate: ExpenseForCreate = {
       date: today,

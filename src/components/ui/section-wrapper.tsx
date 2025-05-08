@@ -18,8 +18,8 @@ export const SectionWrapper = ({
         <SidebarTrigger />
         {navigateTo && (
           <CircleArrowLeft
-            className="cusor-pointer"
-            size={20}
+            className="cursor-pointer"
+            size={18}
             onClick={() => navigate(navigateTo)}
           />
         )}
