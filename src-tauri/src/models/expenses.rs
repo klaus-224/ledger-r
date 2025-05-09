@@ -124,7 +124,7 @@ impl Entity for MonthSummary {
         Ok(month_summary)
     }
 }
-// endregion:   --- MonthSummar
+// endregion:   --- MonthSummary
 
 // startregion: --- ExpenseController
 pub struct ExpenseController();
