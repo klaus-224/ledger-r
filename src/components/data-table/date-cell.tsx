@@ -9,17 +9,17 @@ import { CellContext } from "@tanstack/react-table";
 import { endOfMonth, format, parseISO, startOfMonth } from "date-fns";
 import { useState } from "react";
 
-interface DateCellProps<T> extends CellContext<T, string> {
+interface DateCellProps extends CellContext<any, unknown> {
   currentMonthYear: Date;
-  onUpdate(data: T): Promise<void>;
 }
 
-export function DateCell<T extends { date: string }>({
+export function DateCell({
+  table,
   currentMonthYear,
   row,
+  column,
   getValue,
-  onUpdate,
-}: DateCellProps<T>) {
+}: DateCellProps) {
   const initialDate = parseISO(getValue() as string);
 
   const [open, setOpen] = useState(false);
@@ -27,6 +27,16 @@ export function DateCell<T extends { date: string }>({
 
   const startDateRange = startOfMonth(currentMonthYear);
   const endDateRange = endOfMonth(currentMonthYear);
+
+  function handleUpdate(day: Date) {
+    if (day) {
+      setDate(day);
+      setOpen(false);
+      const formattedDate = format(day, "yyyy-MM-dd");
+      // @ts-ignore
+      table.options.meta?.updateData?.(row.index, column.id, formattedDate);
+    }
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,10 +55,7 @@ export function DateCell<T extends { date: string }>({
         <Calendar
           mode="single"
           selected={date}
-          onDayClick={(day) => {
-            setDate(day);
-            onUpdate({ ...row.original, date: format(day, "yyyy-MM-dd") });
-          }}
+          onDayClick={(day: Date) => handleUpdate(day)}
           fromDate={startDateRange}
           toDate={endDateRange}
           initialFocus

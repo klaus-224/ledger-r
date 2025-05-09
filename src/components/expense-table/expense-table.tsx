@@ -22,14 +22,12 @@ const ExpenseTable = ({
     {
       accessorKey: "date",
       header: "Date",
-      cell: (ctx) => (
-        <DateCell currentMonthYear={yearMonth} onUpdate={onUpdate} {...ctx} />
-      ),
+      cell: (ctx) => <DateCell currentMonthYear={yearMonth} {...ctx} />,
     },
     {
       accessorKey: "category",
       header: "Category",
-      cell: (props) => <EditableCell onUpdate={onUpdate} {...props} />,
+      cell: (props) => <EditableCell {...props} />,
     },
     {
       accessorKey: "amount",
@@ -37,7 +35,7 @@ const ExpenseTable = ({
       cell: (props) => (
         <div className="inline-flex gap-4 items-center">
           <span>$</span>
-          <EditableCell onUpdate={onUpdate} {...props} />
+          <EditableCell {...props} />
         </div>
       ),
     },
@@ -62,6 +60,26 @@ const ExpenseTable = ({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getRowId: (originalRow) => originalRow.id.toString(),
+    meta: {
+      updateData: (rowIndex: number, columnId: string, value: unknown) => {
+        const rowToUpdate = data[rowIndex];
+        if (!rowToUpdate) return;
+
+        let parsedValue = value;
+        if (columnId === "amount" && typeof value === "string") {
+          parsedValue = parseFloat(value);
+          if (isNaN(parsedValue as number)) {
+            console.error("Invalid amount entered");
+            return;
+          }
+        }
+        const updatedExpense: Expense = {
+          ...rowToUpdate,
+          [columnId]: parsedValue,
+        };
+        onUpdate(updatedExpense);
+      },
+    },
   };
 
   return <DataTable tableOptions={table} />;
