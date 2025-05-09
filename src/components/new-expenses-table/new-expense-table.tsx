@@ -1,29 +1,24 @@
+import { DataTable, DateCell, EditableCell } from "@components/data-table";
+import { ExpenseForCreate } from "@lib/types/models";
 import {
   ColumnDef,
   getCoreRowModel,
   TableOptions,
 } from "@tanstack/react-table";
-import { Expense } from "@lib/types/models";
-import { X } from "lucide-react";
-import { DataTable, EditableCell, DateCell } from "@components/data-table";
 
-const ExpenseTable = ({
-  data,
-  onUpdate,
-  onDelete,
-  yearMonth,
-}: {
-  data: Expense[];
+interface TableProps {
   yearMonth: Date;
-  onUpdate: (expense: Expense) => Promise<void>;
-  onDelete: (id: number) => Promise<Expense | undefined>;
-}) => {
-  const columns = [
+  data: ExpenseForCreate[] | [];
+  onUpdate: (expense: ExpenseForCreate) => Promise<void>;
+}
+
+const NewExpenseTable = ({ data, yearMonth, onUpdate }: TableProps) => {
+  const columns: ColumnDef<ExpenseForCreate>[] = [
     {
       accessorKey: "date",
       header: "Date",
-      cell: (ctx) => (
-        <DateCell currentMonthYear={yearMonth} onUpdate={onUpdate} {...ctx} />
+      cell: (props) => (
+        <DateCell currentMonthYear={yearMonth} onUpdate={onUpdate} {...props} />
       ),
     },
     {
@@ -55,15 +50,15 @@ const ExpenseTable = ({
         </div>
       ),
     },
-  ] as ColumnDef<Expense>[];
+  ];
 
-  const table: TableOptions<Expense> = {
+  const table: TableOptions<ExpenseForCreate> = {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getRowId: (originalRow) => originalRow.id.toString(),
   };
 
   return <DataTable tableOptions={table} />;
 };
-export default ExpenseTable;
+
+export default NewExpenseTable;

@@ -34,7 +34,7 @@ const DetailedExpense = () => {
       <div className="xl:w-4/6 ml-auto mr-auto">
         <ExpenseTable
           yearMonth={parseISO(yearMonth!)}
-          expenses={expenses}
+          data={expenses}
           onUpdate={updateExpense}
           onDelete={deleteExpense}
         />

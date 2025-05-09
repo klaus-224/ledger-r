@@ -4,23 +4,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@components/ui/popover";
-import { Expense } from "@lib/types/models";
 import { cn } from "@lib/utils/utils";
 import { CellContext } from "@tanstack/react-table";
 import { endOfMonth, format, parseISO, startOfMonth } from "date-fns";
 import { useState } from "react";
 
-interface DateCellProps extends CellContext<Expense, unknown> {
+interface DateCellProps<T> extends CellContext<T, string> {
   currentMonthYear: Date;
-  onUpdate: (updatedExpense: Expense) => Promise<void>;
+  onUpdate(data: T): Promise<void>;
 }
 
-const DateCell = ({
+export function DateCell<T extends { date: string }>({
   currentMonthYear,
   row,
   getValue,
   onUpdate,
-}: DateCellProps) => {
+}: DateCellProps<T>) {
   const initialDate = parseISO(getValue() as string);
 
   const [open, setOpen] = useState(false);
@@ -57,6 +56,4 @@ const DateCell = ({
       </PopoverContent>
     </Popover>
   );
-};
-
-export default DateCell;
+}
