@@ -31,16 +31,14 @@ const DetailedExpense = () => {
       title={format(parseISO(yearMonth!), "MMMM, yyyy")}
       navigateTo="/expenses"
     >
-      <div className="xl:w-4/6 ml-auto mr-auto">
-        <ExpenseTable
-          yearMonth={parseISO(yearMonth!)}
-          data={expenses}
-          onUpdate={updateExpense}
-          onDelete={deleteExpense}
-        />
-        <div className="mt-5 w-full flex justify-end">
-          <Button onClick={handleAddExpense}>Add Expense +</Button>
-        </div>
+      <ExpenseTable
+        yearMonth={parseISO(yearMonth!)}
+        data={expenses}
+        onUpdate={updateExpense}
+        onDelete={deleteExpense}
+      />
+      <div className="mt-5 w-full flex justify-end">
+        <Button onClick={handleAddExpense}>Add Expense +</Button>
       </div>
     </SectionWrapper>
   );
