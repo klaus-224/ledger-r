@@ -6,11 +6,13 @@ import { useExpense } from "@lib/hooks/useExpense";
 import { ExpenseForCreate } from "@lib/types/models";
 import { format } from "date-fns";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const NewExpense = () => {
   const [expenses, setExpenses] = useState<ExpenseForCreate[] | []>([]);
   const [date, setDate] = useState<Date>(new Date());
-  const { createExpense } = useExpense("2025-01-01");
+  const { createExpense } = useExpense("");
+  const navigate = useNavigate();
 
   const handleAddExpense = () => {
     const newExpense: ExpenseForCreate = {
@@ -40,12 +42,25 @@ const NewExpense = () => {
     }
   };
 
+  const handleSave = () => {
+    expenses.forEach((expense) => {
+      createExpense(expense);
+    });
+    navigate("/expenses");
+  };
+
+  const handleCancel = () => {
+    navigate("/expenses");
+  };
+
   return (
     <SectionWrapper title={"New Expenses"} navigateTo="/expenses">
       <div className="flex flex-row items-center justify-end gap-4 mb-10">
         <MonthPicker value={date} onChange={setDate} />
-        <Button>Save</Button>
-        <Button variant="secondary">Cancel</Button>
+        <Button onClick={handleSave}>Save</Button>
+        <Button variant="secondary" onClick={handleCancel}>
+          Cancel
+        </Button>
       </div>
       <NewExpenseTable
         data={expenses}

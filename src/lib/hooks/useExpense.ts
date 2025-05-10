@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { getEndOfMonth } from "@lib/utils/utils";
 import { invokeIpc } from "@lib/utils/utils";
+import { format } from "date-fns";
 
 export const aprilExpenses: Expense[] = [
   { id: 101, date: "2025-04-01", category: "Groceries", amount: 75.2 },
@@ -29,16 +30,7 @@ export const useExpense = (startDate: string) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const endDate = getEndOfMonth(startDate);
-
-    const params: ListParams<ExpenseDateFilter> = {
-      data: {
-        startDate,
-        endDate,
-      },
-    };
-
-    const getExpenses = async () => {
+    const getExpenses = async (params: ListParams<ExpenseDateFilter>) => {
       try {
         const result = await invokeIpc<Expense[]>(
           "get_expenses_by_date",
@@ -52,7 +44,16 @@ export const useExpense = (startDate: string) => {
       }
     };
 
-    getExpenses();
+    if (startDate !== "") {
+      const endDate = getEndOfMonth(startDate);
+      const params: ListParams<ExpenseDateFilter> = {
+        data: {
+          startDate,
+          endDate: format(endDate, "yyyy-MM-dd"),
+        },
+      };
+      getExpenses(params);
+    }
   }, [startDate]);
 
   const deleteExpense = async (id: number) => {
