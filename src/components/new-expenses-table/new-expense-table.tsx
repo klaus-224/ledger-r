@@ -1,28 +1,23 @@
+import { DataTable, DateCell, EditableCell } from "@components/data-table";
+import { ExpenseForCreate } from "@lib/types/models";
 import {
   ColumnDef,
   getCoreRowModel,
   TableOptions,
 } from "@tanstack/react-table";
-import { Expense } from "@lib/types/models";
-import { X } from "lucide-react";
-import { DataTable, EditableCell, DateCell } from "@components/data-table";
 
-const ExpenseTable = ({
-  data,
-  onUpdate,
-  onDelete,
-  yearMonth,
-}: {
-  data: Expense[];
+interface TableProps {
   yearMonth: Date;
-  onUpdate: (expense: Expense) => Promise<void>;
-  onDelete: (id: number) => Promise<Expense | undefined>;
-}) => {
-  const columns = [
+  data: ExpenseForCreate[] | [];
+  onUpdate: (index: number, expense: ExpenseForCreate) => void;
+}
+
+const NewExpenseTable = ({ data, yearMonth, onUpdate }: TableProps) => {
+  const columns: ColumnDef<ExpenseForCreate>[] = [
     {
       accessorKey: "date",
       header: "Date",
-      cell: (ctx) => <DateCell currentMonthYear={yearMonth} {...ctx} />,
+      cell: (props) => <DateCell currentMonthYear={yearMonth} {...props} />,
     },
     {
       accessorKey: "category",
@@ -39,30 +34,29 @@ const ExpenseTable = ({
         </div>
       ),
     },
-    {
-      id: "delete",
-      header: () => null,
-      cell: (props) => (
-        <div
-          onClick={async () => {
-            await onDelete(props.row.original.id);
-          }}
-          className="cursor-pointer"
-        >
-          <X />
-        </div>
-      ),
-    },
-  ] as ColumnDef<Expense>[];
+    // {
+    //   id: "delete",
+    //   header: () => null,
+    //   cell: (props) => (
+    //     <div
+    //       onClick={async () => {
+    //         await onDelete(props.row.original.id);
+    //       }}
+    //       className="cursor-pointer"
+    //     >
+    //       <X />
+    //     </div>
+    //   ),
+    // },
+  ];
 
-  const table: TableOptions<Expense> = {
+  const table: TableOptions<ExpenseForCreate> = {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getRowId: (originalRow) => originalRow.id.toString(),
     meta: {
       updateData: (rowIndex: number, columnId: string, value: unknown) => {
-        const rowToUpdate = data[rowIndex];
+        const rowToUpdate = data?.at(rowIndex);
         if (!rowToUpdate) return;
 
         let parsedValue = value;
@@ -73,15 +67,18 @@ const ExpenseTable = ({
             return;
           }
         }
-        const updatedExpense: Expense = {
+        const updatedExpense: ExpenseForCreate = {
           ...rowToUpdate,
           [columnId]: parsedValue,
         };
-        onUpdate(updatedExpense);
+        console.log("updatedExpens new expenses", updatedExpense);
+
+        onUpdate(rowIndex, updatedExpense);
       },
     },
   };
 
   return <DataTable tableOptions={table} />;
 };
-export default ExpenseTable;
+
+export default NewExpenseTable;

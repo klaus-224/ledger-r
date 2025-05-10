@@ -4,7 +4,7 @@ import { useExpense } from "@lib/hooks/useExpense";
 import { ExpenseForCreate } from "@lib/types/models";
 import { SectionWrapper } from "@components/ui/section-wrapper";
 import { Button } from "@components/ui/button";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, startOfMonth } from "date-fns";
 
 const DetailedExpense = () => {
   const { yearMonth } = useParams();
@@ -14,7 +14,8 @@ const DetailedExpense = () => {
   );
 
   const handleAddExpense = () => {
-    const today = format(new Date(), "YYYY-MM-DD");
+    // pick the start date of the current month of expenses
+    const today = format(startOfMonth(parseISO(yearMonth!)), "yyyy-MM-dd");
 
     const expenseForCreate: ExpenseForCreate = {
       date: today,
@@ -30,16 +31,14 @@ const DetailedExpense = () => {
       title={format(parseISO(yearMonth!), "MMMM, yyyy")}
       navigateTo="/expenses"
     >
-      <div className="xl:w-4/6 ml-auto mr-auto">
-        <ExpenseTable
-          yearMonth={parseISO(yearMonth!)}
-          expenses={expenses}
-          onUpdate={updateExpense}
-          onDelete={deleteExpense}
-        />
-        <div className="mt-5 w-full flex justify-end">
-          <Button onClick={handleAddExpense}>Add Expense +</Button>
-        </div>
+      <ExpenseTable
+        yearMonth={parseISO(yearMonth!)}
+        data={expenses}
+        onUpdate={updateExpense}
+        onDelete={deleteExpense}
+      />
+      <div className="mt-5 w-full flex justify-end">
+        <Button onClick={handleAddExpense}>Add Expense +</Button>
       </div>
     </SectionWrapper>
   );

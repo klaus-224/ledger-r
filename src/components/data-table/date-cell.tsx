@@ -4,23 +4,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@components/ui/popover";
-import { Expense } from "@lib/types/models";
 import { cn } from "@lib/utils/utils";
 import { CellContext } from "@tanstack/react-table";
 import { endOfMonth, format, parseISO, startOfMonth } from "date-fns";
 import { useState } from "react";
 
-interface DateCellProps extends CellContext<Expense, unknown> {
+interface DateCellProps extends CellContext<any, unknown> {
   currentMonthYear: Date;
-  onUpdate: (updatedExpense: Expense) => Promise<void>;
 }
 
-const DateCell = ({
+export function DateCell({
+  table,
   currentMonthYear,
   row,
+  column,
   getValue,
-  onUpdate,
-}: DateCellProps) => {
+}: DateCellProps) {
   const initialDate = parseISO(getValue() as string);
 
   const [open, setOpen] = useState(false);
@@ -28,6 +27,16 @@ const DateCell = ({
 
   const startDateRange = startOfMonth(currentMonthYear);
   const endDateRange = endOfMonth(currentMonthYear);
+
+  function handleUpdate(day: Date) {
+    if (day) {
+      setDate(day);
+      setOpen(false);
+      const formattedDate = format(day, "yyyy-MM-dd");
+      // @ts-ignore // TODO type meta properly
+      table.options.meta?.updateData?.(row.index, column.id, formattedDate);
+    }
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -46,10 +55,7 @@ const DateCell = ({
         <Calendar
           mode="single"
           selected={date}
-          onDayClick={(day) => {
-            setDate(day);
-            onUpdate({ ...row.original, date: format(day, "yyyy-MM-dd") });
-          }}
+          onDayClick={(day: Date) => handleUpdate(day)}
           fromDate={startDateRange}
           toDate={endDateRange}
           initialFocus
@@ -57,6 +63,4 @@ const DateCell = ({
       </PopoverContent>
     </Popover>
   );
-};
-
-export default DateCell;
+}
