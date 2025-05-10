@@ -26,16 +26,18 @@ const NewExpense = () => {
     rowIndex: number,
     updatedExpense: ExpenseForCreate,
   ) => {
-    const newExpenses = expenses.map((_, index) => {
+    const newExpenses = expenses.map((expense, index) => {
       if (index === rowIndex) {
         return {
           ...updatedExpense,
         };
       }
-      return;
+      return expense;
     });
 
-    setExpenses(newExpenses);
+    if (newExpenses.length > 0) {
+      setExpenses([...newExpenses]);
+    }
   };
 
   return (

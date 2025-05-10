@@ -9,7 +9,7 @@ import {
 interface TableProps {
   yearMonth: Date;
   data: ExpenseForCreate[] | [];
-  onUpdate: (expense: ExpenseForCreate) => Promise<void>;
+  onUpdate: (index: number, expense: ExpenseForCreate) => void;
 }
 
 const NewExpenseTable = ({ data, yearMonth, onUpdate }: TableProps) => {
@@ -56,7 +56,7 @@ const NewExpenseTable = ({ data, yearMonth, onUpdate }: TableProps) => {
     getCoreRowModel: getCoreRowModel(),
     meta: {
       updateData: (rowIndex: number, columnId: string, value: unknown) => {
-        const rowToUpdate = data[rowIndex];
+        const rowToUpdate = data?.at(rowIndex);
         if (!rowToUpdate) return;
 
         let parsedValue = value;
@@ -71,7 +71,9 @@ const NewExpenseTable = ({ data, yearMonth, onUpdate }: TableProps) => {
           ...rowToUpdate,
           [columnId]: parsedValue,
         };
-        onUpdate(updatedExpense);
+        console.log("updatedExpens new expenses", updatedExpense);
+
+        onUpdate(rowIndex, updatedExpense);
       },
     },
   };

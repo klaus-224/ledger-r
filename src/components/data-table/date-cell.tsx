@@ -33,7 +33,7 @@ export function DateCell({
       setDate(day);
       setOpen(false);
       const formattedDate = format(day, "yyyy-MM-dd");
-      // @ts-ignore
+      // @ts-ignore // TODO type meta properly
       table.options.meta?.updateData?.(row.index, column.id, formattedDate);
     }
   }
