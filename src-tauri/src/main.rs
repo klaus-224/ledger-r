@@ -7,7 +7,7 @@ mod error;
 mod models;
 
 // -- Re-exports
-pub use error::{Error, Result};
+pub use error::{AppError, Result};
 
 // --- Imports
 use commands::*;
