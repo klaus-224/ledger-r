@@ -1,5 +1,5 @@
 use super::{Createable, Entity, Filterable, Patchable};
-use crate::{Error, Result};
+use crate::{AppError, Result};
 use duckdb::{params_from_iter, Connection};
 use std::sync::Mutex;
 
@@ -62,7 +62,7 @@ impl DuckStore {
 
         let entity_list = stmt.query_map(params_from_iter(expr.iter()), |row| E::from_row(row))?;
 
-        entity_list.map(|res| res.map_err(Error::from)).collect()
+        entity_list.map(|res| res.map_err(AppError::from)).collect()
     }
 
     // TODO: I don't like this => we are just passing SQL here
@@ -75,7 +75,7 @@ impl DuckStore {
         // then close the connection gracefully rather than letting it hang
         let mut stmt = conn.prepare(sql)?;
         let entity_list = stmt.query_map([], |row| E::from_row(row))?;
-        entity_list.map(|res| res.map_err(Error::from)).collect()
+        entity_list.map(|res| res.map_err(AppError::from)).collect()
     }
 
     pub fn execute_delete(&self, tbl: &str, id: i32) -> Result<i32> {

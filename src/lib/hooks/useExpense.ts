@@ -4,26 +4,13 @@ import {
   ExpenseForCreate,
   ListParams,
   DeleteParams,
+  AppError,
 } from "@lib/types/models";
 import { useEffect, useState } from "react";
-import { getEndOfMonth } from "@lib/utils/utils";
+import { checkAppError, getEndOfMonth } from "@lib/utils/utils";
 import { invokeIpc } from "@lib/utils/utils";
 import { format } from "date-fns";
 
-export const aprilExpenses: Expense[] = [
-  { id: 101, date: "2025-04-01", category: "Groceries", amount: 75.2 },
-  { id: 102, date: "2025-04-05", category: "Transport", amount: 15.0 },
-  { id: 103, date: "2025-04-10", category: "Dining", amount: 45.5 },
-  { id: 104, date: "2025-04-12", category: "Utilities", amount: 120.0 },
-  { id: 105, date: "2025-04-15", category: "Entertainment", amount: 60.0 },
-  { id: 106, date: "2025-04-20", category: "Health", amount: 30.0 },
-  { id: 107, date: "2025-04-22", category: "Rent", amount: 950.0 },
-  { id: 108, date: "2025-04-25", category: "Shopping", amount: 100.0 },
-  { id: 109, date: "2025-04-28", category: "Subscription", amount: 12.99 },
-  { id: 110, date: "2025-04-30", category: "Misc", amount: 20.0 },
-];
-
-// TODO: implement better error
 export const useExpense = (startDate: string) => {
   // state for expenses (note: this will be a per-view data storage, i.e. when I switch views, the data in these states will disappear)
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -38,9 +25,17 @@ export const useExpense = (startDate: string) => {
         );
 
         setExpenses(result);
-      } catch (e) {
-        console.log(e);
-        setError(error);
+        setError("");
+      } catch (e: any) {
+        console.error("Error fetching expenses:", e);
+        if (checkAppError(e)) {
+          const appError = e as AppError;
+          setError(`${appError.kind}: ${appError.message}`);
+        } else if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError("An unknown error occurred while fetching expenses.");
+        }
       }
     };
 
@@ -64,11 +59,21 @@ export const useExpense = (startDate: string) => {
     try {
       const result = await invokeIpc<Expense>("delete_expense", params);
       const newExpenses = expenses.filter((expense) => expense.id !== id);
+
       setExpenses(newExpenses);
+      setError("");
+
       return result;
     } catch (e: any) {
-      console.log(e);
-      setError(e);
+      console.error(`Failed to delete expense ${id}:`, e);
+      if (checkAppError(e)) {
+        const appError = e as AppError;
+        setError(`${appError.kind}: ${appError.message}`);
+      } else if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("An unknown error occurred while fetching expenses.");
+      }
     }
   };
 
@@ -88,8 +93,18 @@ export const useExpense = (startDate: string) => {
 
       setExpenses(updatedExpenses);
     } catch (e: any) {
-      console.log(e);
-      setError(e);
+      console.error(
+        `Failed to update expense: ${JSON.stringify(expenseToUpdate)}:`,
+        e,
+      );
+      if (checkAppError(e)) {
+        const appError = e as AppError;
+        setError(`${appError.kind}: ${appError.message}`);
+      } else if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("An unknown error occurred while fetching expenses.");
+      }
     }
   };
 
@@ -101,8 +116,18 @@ export const useExpense = (startDate: string) => {
 
       setExpenses((oldExpenses) => [...oldExpenses, expense]);
     } catch (e: any) {
-      console.log(e);
-      setError(e);
+      console.error(
+        `Failed to create expense: ${JSON.stringify(expenseToCreate)}:`,
+        e,
+      );
+      if (checkAppError(e)) {
+        const appError = e as AppError;
+        setError(`${appError.kind}: ${appError.message}`);
+      } else if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("An unknown error occurred while fetching expenses.");
+      }
     }
   };
 

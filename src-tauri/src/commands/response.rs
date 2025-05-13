@@ -1,10 +1,5 @@
-use crate::error::Result;
+use crate::{error::Result, AppError};
 use serde::Serialize;
-
-#[derive(Serialize)]
-pub struct IpcError {
-    message: String,
-}
 
 #[derive(Serialize)]
 pub struct IpcResult<D>
@@ -19,7 +14,7 @@ pub struct IpcResponse<D>
 where
     D: Serialize,
 {
-    error: Option<IpcError>,
+    error: Option<AppError>,
     result: Option<IpcResult<D>>,
 }
 
@@ -33,10 +28,8 @@ where
                 error: None,
                 result: Some(IpcResult { data }),
             },
-            Err(err) => IpcResponse {
-                error: Some(IpcError {
-                    message: format!("{err}"),
-                }),
+            Err(app_err) => IpcResponse {
+                error: Some(app_err),
                 result: None,
             },
         }
