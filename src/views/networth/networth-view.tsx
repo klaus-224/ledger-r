@@ -1,5 +1,7 @@
+import { SectionWrapper } from "@components/ui/section-wrapper";
+
 const NetworthView = () => {
-  return <div>Neworth Pane</div>;
+  return <SectionWrapper title="Networth">Coming Soon</SectionWrapper>;
 };
 
 export default NetworthView;

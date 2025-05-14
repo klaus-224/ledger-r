@@ -62,13 +62,15 @@ const NewExpense = () => {
           Cancel
         </Button>
       </div>
-      <NewExpenseTable
-        data={expenses}
-        yearMonth={date}
-        onUpdate={handleUpdateExpense}
-      />
-      <div className="mt-5 w-full flex justify-end">
-        <Button onClick={handleAddExpense}>Add Expense +</Button>
+      <div className="px-10">
+        <NewExpenseTable
+          data={expenses}
+          yearMonth={date}
+          onUpdate={handleUpdateExpense}
+        />
+        <div className="mt-5 w-full flex justify-end">
+          <Button onClick={handleAddExpense}>Add Expense +</Button>
+        </div>
       </div>
     </SectionWrapper>
   );
