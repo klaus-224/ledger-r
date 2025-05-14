@@ -12,8 +12,8 @@
   "app": {
     "windows": [
       {
-        "title": "ledgerr",
-        "width": 800,
+        "title": "LedgerR",
+        "width": 1000,
         "height": 600
       }
     ],
