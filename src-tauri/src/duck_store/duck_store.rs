@@ -122,12 +122,12 @@ mod tests {
 
     use super::*;
     use crate::{
-        duck_store::db_seed,
+        duck_store::init_dev_db,
         models::expenses::{Expense, ExpenseDateFilter, ExpenseForCreate, MonthSummary},
     };
 
     async fn setup_test_db() -> DuckStore {
-        let db_path = db_seed("test");
+        let db_path = init_dev_db("test");
 
         DuckStore::new(&db_path).expect("Failed to create test database")
     }
