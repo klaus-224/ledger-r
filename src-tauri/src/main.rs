@@ -18,10 +18,19 @@ fn main() -> Result<()> {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
-            let db_path = duck_store::db_seed("dev");
-            let db_state = DuckStore::new(&db_path).unwrap();
+            // started in dev
+            if cfg!(dev) {
+                let db_path = duck_store::db_seed("dev");
+                let db_state = DuckStore::new(&db_path)?;
+                app.manage(db_state);
+            // started in prod
+            } else {
+                // `tauri build` only code
+                let db_path = duck_store::db_seed("prod");
+                let db_state = DuckStore::new(&db_path)?;
+                app.manage(db_state);
+            }
 
-            app.manage(db_state);
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
