@@ -4,9 +4,17 @@
 
 ### V0.1.0-Alpha
 
+#### Features
+
 - add and delete expenses on a per-month basis
 - editable expense tables
-- **Note: the dmg is not working right now - not sure why**
+
+#### Installation (macos)
+
+- download the `.dmg`
+- try to install the app
+- you will see the warning that the application could not be verified
+- go to System Settings > Privacy and Security > find LedgerR and click `open anyway`
 
 ## Planned Features
 
