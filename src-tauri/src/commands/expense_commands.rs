@@ -1,10 +1,10 @@
 use tauri::{command, State};
 
 use crate::{
-    duck_store::DuckStore,
     models::expenses::{
         Expense, ExpenseController, ExpenseDateFilter, ExpenseForCreate, MonthSummary,
     },
+    store::DuckStore,
 };
 
 use super::{

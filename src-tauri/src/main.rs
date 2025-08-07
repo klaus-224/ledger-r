@@ -2,16 +2,17 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 // --- Modules
 mod commands;
-mod duck_store;
 mod error;
 mod models;
+mod query_builder;
+mod store;
 
 // -- Re-exports
 pub use error::{AppError, Result};
 
 // --- Imports
 use commands::*;
-use duck_store::DuckStore;
+use store::DuckStore;
 use tauri::Manager;
 
 fn main() -> Result<()> {
@@ -20,10 +21,10 @@ fn main() -> Result<()> {
         .setup(|app| {
             let db_path = if tauri::is_dev() {
                 // started in dev mode
-                duck_store::init_dev_db("dev")
+                store::init_dev_db("dev")
             } else {
                 // for build
-                duck_store::init_prod_db(app)
+                store::init_prod_db(app)
             };
 
             let db_state = DuckStore::new(&db_path)?;

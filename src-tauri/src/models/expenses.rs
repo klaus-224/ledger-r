@@ -1,5 +1,5 @@
-use crate::duck_store::{Createable, DuckStore, Entity, Filterable, Patchable};
 use crate::error::Result;
+use crate::store::{Createable, DuckStore, Entity, Filterable, Patchable};
 use duckdb::ToSql;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -101,7 +101,6 @@ impl Createable for ExpenseForCreate {
 // endregion:   --- ExpenseForCreate
 
 // startregion: --- MonthSummary
-
 #[derive(Serialize, TS)]
 #[ts(
     export,
@@ -111,7 +110,7 @@ impl Createable for ExpenseForCreate {
 #[serde(rename_all = "camelCase")]
 pub struct MonthSummary {
     pub month: String,
-    pub expenses: i32,
+    pub expenses: f32,
 }
 
 impl Entity for MonthSummary {
@@ -149,5 +148,10 @@ impl ExpenseController {
 
     pub fn delete(store: &DuckStore, params: i32) -> Result<i32> {
         store.execute_delete("expenses", params)
+    }
+
+    pub fn delete_batch(store: &DuckStore, year_month: &str) -> Result<()> {
+        let sql = "DELETE FROM expenses WHERE strftime(strptime(date, '%Y-%m-%d'), '%Y-%m') = ?";
+        store.execute_batch_delete(sql, year_month)
     }
 }
